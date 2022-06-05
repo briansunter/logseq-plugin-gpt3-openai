@@ -67,7 +67,8 @@ https://user-images.githubusercontent.com/2816289/171097641-797e7693-2f98-47a7-a
 - Creating study plan for a given topic
 
 
-https://user-images.githubusercontent.com/2816289/171098679-ce14a44d-b727-486b-8db5-80f0f5e1a34f.mov
+https://user-images.githubusercontent.com/2816289/172035271-cecb15f9-855d-41e5-9534-d1a0bda07b99.mp4
+
 
 - Explain how to do something
 
