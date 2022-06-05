@@ -34,6 +34,7 @@ Just type `/gpt3` in a block or select `gpt3` from the block menu.
 ## 📝 Table of Contents
 
 - [About](#about)
+- [Examples with GIFs](#examples)
 - [Getting Started](#getting_started)
 - [Deployment](#deployment)
 - [Usage](#usage)
@@ -47,13 +48,13 @@ Just type `/gpt3` in a block or select `gpt3` from the block menu.
 
 `logseq-plugin-gpt3-openai` allows users to generate human-like text using GPT-3 within the LogSeq editor.
 
-Just write a GPT-3 command in a block, then run the open `openai` command via the slash menu or the block menu. The plugin will generate a GPT-3 reponse using the OpenAI API and insert it beneath the block.
+Write a GPT-3 command in a block, then run the open `gpt3` command via the slash or block menu. The plugin will generate a GPT-3 response using the OpenAI API and insert it beneath the block.
 
 ## OpenAI API Key
 
 You need to [get an OpenAI API Key here](https://openai.com/api/) and add the key in the plugin settings.
 
-## 📖 Example Use Cases
+## Example Use Cases <a name = "examples"></a>
 
 ## Summarizing or explaining a block of text
 
@@ -124,13 +125,13 @@ Open LogSeq
 
 Go to Settings > Turn on Developer Mode
 
-This will bring up the "Plugins" entry in three dots more menu list on top right of head bar. Go to Plugins page, and you will get a button with the  `Load unpacked plugin label`. Select the root folder of this plugin repo.
+This will bring up the "Plugins" entry in three dots more menu list on the top right of the head bar. Go to Plugins page, and you will get a button with the  `Load unpacked plugin label`. Select the root folder of this plugin repo.
 
 Make sure you add your [OpenAI Key](https://beta.openai.com/account/api-keys)
 
 ## 🚀 Deployment <a name = "deployment"></a>
 
-- [ ] Add to Logseq marketplace
+Creates a build using semantic release when a commit is pushed with a smart commit message.
 
 ## Built Using <a name = "built_using"></a>
 
