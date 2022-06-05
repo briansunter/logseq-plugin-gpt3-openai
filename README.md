@@ -55,30 +55,22 @@ You need to [get an OpenAI API Key here](https://openai.com/api/) and add the ke
 
 ## 📖 Example Use Cases
 
-- Summarizing or explaining a block of text
+## Summarizing or explaining a block of text
 
-<https://user-images.githubusercontent.com/2816289/172034715-21eb418d-9907-4c82-be84-84a0b82427a7.mp4>
-
+![logseq gpt3 openai tldr](docs/tldr.gif)
 ## Creating bullet point outlines for a given topic
 
-<https://user-images.githubusercontent.com/2816289/171097641-797e7693-2f98-47a7-aa2c-c8ae37aea888.mov>
-
+![logseq gpt3 openai outline](docs/outline.gif)
 ## Creating study plan for a given topic
-
-
-https://user-images.githubusercontent.com/2816289/172035502-5ac2d577-81b6-4a20-a0a8-4ece5fae9fc8.mp4
-
+![logseq gpt3 openai study](docs/study.gif)
 
 ## Explain how to do something
 
-<https://user-images.githubusercontent.com/2816289/172034726-a1f1dbbe-4194-47f8-a6f2-a2aeb2aa95ff.mp4>
-
+![logseq gpt3 openai workout](docs/workout.gif)
 
 ## Parse tabular data from plain english
 
-
-https://user-images.githubusercontent.com/2816289/172035486-c320e019-c675-4c99-8a51-1ef824b9dde0.mp4
-
+![logseq gpt3 openai table](docs/table.gif)
 
 - Generate code to do a given task
 - Correct grammar
