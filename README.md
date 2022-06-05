@@ -29,7 +29,9 @@ Just type `/gpt3` in a block or select `gpt3` from the block menu.
 
 ## Demo 
 
-https://user-images.githubusercontent.com/2816289/171101687-0e4ebca3-5a05-4d40-b53f-9c67336cef44.mp4
+
+https://user-images.githubusercontent.com/2816289/172034704-2fd978fc-a741-4055-a5b1-9f49d43a28c3.mp4
+
 
 ## 📝 Table of Contents
 
@@ -51,9 +53,7 @@ Just write a GPT-3 command in a block, then run the open `openai` command via th
 ## 📖 Example Use Cases
 - Summarizing or explaining a block of text
 
-
-https://user-images.githubusercontent.com/2816289/171097277-bbf0ccc1-2730-4814-b2a6-079112024a75.mov
-
+https://user-images.githubusercontent.com/2816289/172034715-21eb418d-9907-4c82-be84-84a0b82427a7.mp4
 
 - Creating bullet point outlines for a given topic
 
@@ -68,13 +68,22 @@ https://user-images.githubusercontent.com/2816289/171098679-ce14a44d-b727-486b-8
 - Explain how to do something
 
 
-https://user-images.githubusercontent.com/2816289/171099995-8a6d8ec3-df61-4220-8a98-5c077cd78ca6.mp4
+
+https://user-images.githubusercontent.com/2816289/172034726-a1f1dbbe-4194-47f8-a6f2-a2aeb2aa95ff.mp4
+
 
 
 - Explaining code in human-understandable english
 
 
-https://user-images.githubusercontent.com/2816289/171100160-cfadc07f-e522-4d64-9261-57191c8bf83c.mp4
+
+https://user-images.githubusercontent.com/2816289/172034736-79205599-2be5-40af-9922-f3bea7bd39cb.mp4
+
+
+
+
+
+https://user-images.githubusercontent.com/2816289/172034733-c0254880-5a01-4c99-88fe-30b535eb6fb1.mp4
 
 
 
