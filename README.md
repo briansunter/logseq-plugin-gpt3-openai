@@ -29,7 +29,7 @@ Just type `/gpt3` in a block or select `gpt3` from the block menu.
 
 ## Demo
 
-<https://user-images.githubusercontent.com/2816289/172034704-2fd978fc-a741-4055-a5b1-9f49d43a28c3.mp4>
+![logseq gpt3 openai demo](docs/demo.gif)
 
 ## 📝 Table of Contents
 
