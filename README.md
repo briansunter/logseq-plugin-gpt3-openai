@@ -1,6 +1,6 @@
 <p align="center">
   <a href="" rel="noopener">
- <img width=400px height=200px src="./docs/open-ai.webp" alt="Project logo"></a>
+ <img width=400px height=200px src="./docs/openai.webp" alt="Project logo"></a>
  <img width=200px height=200px src="./docs/logseq.png" alt="Project logo"></a>
 </p>
 
