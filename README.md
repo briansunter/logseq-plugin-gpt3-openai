@@ -157,7 +157,7 @@ Make sure you add your [OpenAI Key](https://beta.openai.com/account/api-keys)
 
 ## Authors <a name = "authors"></a>
 
-- [@briansunter](https://github.com/birnaunster) - Author
+- [@briansunter](https://github.com/briansunter) - Author
 
 ## Acknowledgements <a name = "acknowledgement"></a>
 
