@@ -18,7 +18,7 @@
 ---
 
 <p align="center"> A plugin for GPT-3 AI assisted note taking in Logseq
-    <br> 
+    <br>
 </p>
 
 ## Usage
@@ -27,11 +27,9 @@ Just type `/gpt3` in a block or select `gpt3` from the block menu.
 
 [See here for example usages](https://beta.openai.com/examples).
 
-## Demo 
+## Demo
 
-
-https://user-images.githubusercontent.com/2816289/172034704-2fd978fc-a741-4055-a5b1-9f49d43a28c3.mp4
-
+<https://user-images.githubusercontent.com/2816289/172034704-2fd978fc-a741-4055-a5b1-9f49d43a28c3.mp4>
 
 ## 📝 Table of Contents
 
@@ -46,6 +44,7 @@ https://user-images.githubusercontent.com/2816289/172034704-2fd978fc-a741-4055-a
 - [Acknowledgments](#acknowledgement)
 
 ## About <a name = "about"></a>
+
 `logseq-plugin-gpt3-openai` allows users to generate human-like text using GPT-3 within the LogSeq editor.
 
 Just write a GPT-3 command in a block, then run the open `openai` command via the slash menu or the block menu. The plugin will generate a GPT-3 reponse using the OpenAI API and insert it beneath the block.
@@ -55,59 +54,47 @@ Just write a GPT-3 command in a block, then run the open `openai` command via th
 You need to [get an OpenAI API Key here](https://openai.com/api/) and add the key in the plugin settings.
 
 ## 📖 Example Use Cases
+
 - Summarizing or explaining a block of text
 
-https://user-images.githubusercontent.com/2816289/172034715-21eb418d-9907-4c82-be84-84a0b82427a7.mp4
+<https://user-images.githubusercontent.com/2816289/172034715-21eb418d-9907-4c82-be84-84a0b82427a7.mp4>
 
-- Creating bullet point outlines for a given topic
+## Creating bullet point outlines for a given topic
 
+<https://user-images.githubusercontent.com/2816289/171097641-797e7693-2f98-47a7-aa2c-c8ae37aea888.mov>
 
-https://user-images.githubusercontent.com/2816289/171097641-797e7693-2f98-47a7-aa2c-c8ae37aea888.mov
+## Creating study plan for a given topic
 
-- Creating study plan for a given topic
+<https://user-images.githubusercontent.com/2816289/171098679-ce14a44d-b727-486b-8db5-80f0f5e1a34f.mov>
 
+## Explain how to do something
 
-https://user-images.githubusercontent.com/2816289/172035271-cecb15f9-855d-41e5-9534-d1a0bda07b99.mp4
+<https://user-images.githubusercontent.com/2816289/172034726-a1f1dbbe-4194-47f8-a6f2-a2aeb2aa95ff.mp4>
 
+## Explaining code in human-understandable english
 
-- Explain how to do something
+<https://user-images.githubusercontent.com/2816289/172034736-79205599-2be5-40af-9922-f3bea7bd39cb.mp4>
 
+<https://user-images.githubusercontent.com/2816289/172034733-c0254880-5a01-4c99-88fe-30b535eb6fb1.mp4>
 
+## Parse tabular data from plain english
 
-https://user-images.githubusercontent.com/2816289/172034726-a1f1dbbe-4194-47f8-a6f2-a2aeb2aa95ff.mp4
-
-
-
-- Explaining code in human-understandable english
-
-
-
-https://user-images.githubusercontent.com/2816289/172034736-79205599-2be5-40af-9922-f3bea7bd39cb.mp4
-
-
-
-
-
-https://user-images.githubusercontent.com/2816289/172034733-c0254880-5a01-4c99-88fe-30b535eb6fb1.mp4
-
-
+<https://user-images.githubusercontent.com/2816289/171100243-7f155861-2e4d-4757-b7d4-8acd677f79b5.mp4>
 
 - Generate code to do a given task
 - Correct grammar
 - Translate into other languages
-- Parse tabular data from plain english
-
-https://user-images.githubusercontent.com/2816289/171100243-7f155861-2e4d-4757-b7d4-8acd677f79b5.mp4
 
 - Classification and keyword tagging of text
 - Generate lists of given topics
-	- `List 10 top selling science fiction books`
+  - `List 10 top selling science fiction books`
 - Write about a given topic
-	- `Write a tagline for an ice cream shop.`
+  - `Write a tagline for an ice cream shop.`
 - Answer Questions
-	- `Q: How does a telescope work?`
+  - `Q: How does a telescope work?`
 
 ## Getting Started <a name = "getting_started"></a>
+
 How to build and develop the project locally.
 
 ### Prerequisites
@@ -121,10 +108,11 @@ npm i
 ```
 
 ## Running the tests <a name = "tests"></a>
+
 - [ ] Add Tests
 
-
 ## Build <a name="usage"></a>
+
 ```
 npm run build
 ```
