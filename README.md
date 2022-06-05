@@ -50,6 +50,10 @@ https://user-images.githubusercontent.com/2816289/172034704-2fd978fc-a741-4055-a
 
 Just write a GPT-3 command in a block, then run the open `openai` command via the slash menu or the block menu. The plugin will generate a GPT-3 reponse using the OpenAI API and insert it beneath the block.
 
+## OpenAI API Key
+
+You need to [get an OpenAI API Key here](https://openai.com/api/) and add the key in the plugin settings.
+
 ## 📖 Example Use Cases
 - Summarizing or explaining a block of text
 
