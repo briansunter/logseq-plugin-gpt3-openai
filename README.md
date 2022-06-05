@@ -79,7 +79,10 @@ You need to [get an OpenAI API Key here](https://openai.com/api/) and add the ke
 
 ## Parse tabular data from plain english
 
-<https://user-images.githubusercontent.com/2816289/171100243-7f155861-2e4d-4757-b7d4-8acd677f79b5.mp4>
+
+https://user-images.githubusercontent.com/2816289/172035486-c320e019-c675-4c99-8a51-1ef824b9dde0.mp4
+
+
 
 - Generate code to do a given task
 - Correct grammar
