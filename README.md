@@ -69,25 +69,15 @@ You need to [get an OpenAI API Key here](https://openai.com/api/) and add the ke
 https://user-images.githubusercontent.com/2816289/172035502-5ac2d577-81b6-4a20-a0a8-4ece5fae9fc8.mp4
 
 
-
 ## Explain how to do something
 
 <https://user-images.githubusercontent.com/2816289/172034726-a1f1dbbe-4194-47f8-a6f2-a2aeb2aa95ff.mp4>
-
-## Explaining code in human-understandable english
-
-<https://user-images.githubusercontent.com/2816289/172034736-79205599-2be5-40af-9922-f3bea7bd39cb.mp4>
-
-
-
-https://user-images.githubusercontent.com/2816289/172035846-560e4954-13b2-40d6-97fc-7a338a586818.mp4
 
 
 ## Parse tabular data from plain english
 
 
 https://user-images.githubusercontent.com/2816289/172035486-c320e019-c675-4c99-8a51-1ef824b9dde0.mp4
-
 
 
 - Generate code to do a given task
