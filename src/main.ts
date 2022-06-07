@@ -42,8 +42,8 @@ logseq.useSettingsSchema(settingsSchema);
 async function runOpenAI(b: IHookEvent) {
   const apiKey = logseq.settings!["openAIKey"];
   const completionEngine = logseq.settings!["openAICompletionEngine"];
-  const temperature = logseq.settings!["openAITemperature"];
-  const maxTokens = logseq.settings!["openAIMaxTokens"];
+  const temperature = Number.parseFloat(logseq.settings!["openAITemperature"]);
+  const maxTokens = Number.parseInt(logseq.settings!["openAIMaxTokens"]);
 
   if (!apiKey) {
     console.error("Need API key set in settings.");
