@@ -158,6 +158,11 @@ Creates a build using semantic release when a commit is pushed with a smart comm
 - [LogSeq](https://logseq.com/) - Privacy-first, open-source knowledge base that works on top of local plain-text Markdown and Org-mode files.
 - [Vite](https://vitejs.dev/) - Next Generation Frontend Tooling
 
+## Contributing <a name = "contributing"></a>
+
+Do you have a bug or idea? I would love to hear from you! [Open a Github issue here.](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/new)
+
+PRs welcome. [Open an issue](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/new) to discuss first if possible.
 ## Authors <a name = "authors"></a>
 
 - [@briansunter](https://github.com/briansunter) - Author
