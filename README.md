@@ -85,6 +85,24 @@ You need to [get an OpenAI API Key here](https://openai.com/api/) and add the ke
 - Answer Questions
   - `Q: How does a telescope work?`
 
+## FAQ <a name = "faq"></a>
+### What is GPT-3 and OpenAI, and how does it work?
+See [this article for a good overview.](https://www.vox.com/future-perfect/21355768/gpt-3-ai-openai-turing-test-language)
+
+### I see an "OpenAI Plugin Error"
+
+![openai](docs/openai-error.png)]
+
+- Open the developer tools (Menu -> View -> Toggle Developer tools)
+
+![](docs/debug.png)
+
+![](docs/response.png)
+
+- See if you can figure out the error on your own. Maybe you had a network issue if it says something like "timed out." Sometimes the OpenAI API has issues. You also have a limited number of tokens, so you may run out and need to refill. You may be hitting a rate limit.
+
+- If you can't figure it out based on the error message and it doesn't go away. Make an issue on GitHub.
+
 ## Getting Started <a name = "getting_started"></a>
 
 How to build and develop the project locally.
