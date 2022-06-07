@@ -50,9 +50,13 @@ Just type `/gpt3` in a block or select `gpt3` from the block menu.
 
 Write a GPT-3 command in a block, then run the open `gpt3` command via the slash or block menu. The plugin will generate a GPT-3 response using the OpenAI API and insert it beneath the block.
 
-## OpenAI API Key
+## Getting Started <a name = "getting_started"></a>
 
-You need to [get an OpenAI API Key here](https://openai.com/api/) and add the key in the plugin settings.
+- You need to [get an OpenAI API Key here](https://openai.com/api/) and add the key in the plugin settings.
+
+- Make sure you [read OpenAI's usage guidelines](https://beta.openai.com/docs/usage-guidelines) and avoid generating certain types of content.
+
+- Download the plugin in the Logseq marketplace by searching for `gpt3` or `openai`.
 
 ## Example Use Cases <a name = "examples"></a>
 
@@ -103,9 +107,6 @@ See [this article for a good overview.](https://www.vox.com/future-perfect/21355
 
 - If you can't figure it out based on the error message and it doesn't go away. Make an issue on GitHub.
 
-## Getting Started <a name = "getting_started"></a>
-
-How to build and develop the project locally.
 
 ### Prerequisites
 
@@ -132,10 +133,11 @@ npm run build
 This enables the local dev server with hot reloading, via the logseq vite plugin.
 
 ```
+npm i
 npm run dev
 ```
 
-## Local Installation
+### Prod build
 
 First run `npm i` and `npm run build`
 
