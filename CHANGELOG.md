@@ -1,3 +1,10 @@
+## [1.0.1](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.0.0...v1.0.1) (2022-06-07)
+
+
+### Bug Fixes
+
+* **settings:** Fix update settings bug ([c6bd72f](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/c6bd72f019b07b010e9e11adafa812c6af96f59a))
+
 # 1.0.0 (2022-06-05)
 
 
