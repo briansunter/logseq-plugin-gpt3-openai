@@ -69,6 +69,9 @@ Write a GPT-3 command in a block, then run the open `gpt3` command via the slash
 ## Creating study plan for a given topic
 ![logseq gpt3 openai study](docs/study.gif)
 
+## Write a travel itinerary 
+
+![](docs/travel.gif)
 ## Explain how to do something
 
 ![logseq gpt3 openai workout](docs/workout.gif)
@@ -88,7 +91,11 @@ Write a GPT-3 command in a block, then run the open `gpt3` command via the slash
   - `Write a tagline for an ice cream shop.`
 - Answer Questions
   - `Q: How does a telescope work?`
+## Just for fun
 
+### Crazy recipes
+
+![](docs/weirdpizza.gif)]
 ## FAQ <a name = "faq"></a>
 ### What is GPT-3 and OpenAI, and how does it work?
 See [this article for a good overview.](https://www.vox.com/future-perfect/21355768/gpt-3-ai-openai-turing-test-language)
