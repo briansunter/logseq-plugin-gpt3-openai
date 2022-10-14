@@ -70,10 +70,23 @@ async function runOpenAI(b: IHookEvent) {
       } else {
         logseq.App.showMsg("No OpenAI results.", "warning");
       }
-    } catch (e) {
-      console.error("openai plugin error");
-      console.error(e);
-      logseq.App.showMsg("OpenAI Plugin Error", "error");
+    } catch (e: any) {
+      const errorCode = e.response.data.error.code;
+      const errorMessage = e.response.data.error.message;
+      const errorType = e.response.data.error.type;
+
+      if (e.response.status === 401) {
+        console.error("OpenAI API key is invalid.")
+        logseq.App.showMsg("Invalid OpenAI API Key.", "error");
+      } else if (e.response.status === 429) {
+        console.warn(
+          "OpenAI API rate limit exceeded. Try slowing down your requests."
+        );
+        logseq.App.showMsg("OpenAI Rate Limited", "warning");
+      } else {
+        logseq.App.showMsg("OpenAI Plugin Error", "error");
+      }
+      console.error(`OpenAI error: ${errorType} ${errorCode}  ${errorMessage}`);
     }
   }
 }
