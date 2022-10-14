@@ -113,7 +113,12 @@ See [this article for a good overview.](https://www.vox.com/future-perfect/21355
 - See if you can figure out the error on your own. Maybe you had a network issue if it says something like "timed out." Sometimes the OpenAI API has issues. You also have a limited number of tokens, so you may run out and need to refill. You may be hitting a rate limit.
 
 - If you can't figure it out based on the error message and it doesn't go away. Make an issue on GitHub.
+### Known Issues
 
+#### `OpenAI Rate Limited`
+OpenAI has limits on how often you can call them. If you get this error, you'll need to wait a bit before trying again.
+#### `Refused to set unsafe header "User Agent"`
+This error doesn't cause any issues besides the error message in the console. It's a known issue with the OpenAI API. See [this issue](https://github.com/openai/openai-node/issues/6) for more details. I'm working on a PR to their library to support browser usage. Ignore this error for now.
 
 ### Prerequisites
 
