@@ -1,7 +1,7 @@
 {
   "name": "logseq-plugin-gpt3-openai",
   "private": true,
-  "version": "1.0.1",
+  "version": "1.1.0",
   "main": "dist/index.html",
   "scripts": {
     "dev": "vite",

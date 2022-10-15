@@ -1,3 +1,10 @@
+# [1.1.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.0.1...v1.1.0) (2022-10-15)
+
+
+### Features
+
+* **error-handling:** Improve error handling and messaging ([2f33d09](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/2f33d09825288cc703855c4b41600204691cc9cf))
+
 ## [1.0.1](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.0.0...v1.0.1) (2022-06-07)
 
 
