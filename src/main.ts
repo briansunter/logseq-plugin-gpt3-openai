@@ -65,8 +65,8 @@ async function runOpenAI(b: IHookEvent) {
             return false;
           }
           if (err.response.status === 429) {
-            const errorCode = err.response.data.error.type;
-            if (errorCode === "insufficient_quota") {
+            const errorType = err.response.data.error.type;
+            if (errorType === "insufficient_quota") {
               return false;
             }
             console.warn("Rate limit exceeded. Retrying...");
