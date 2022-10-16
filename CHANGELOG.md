@@ -1,3 +1,10 @@
+## [1.1.1](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.1.0...v1.1.1) (2022-10-16)
+
+
+### Bug Fixes
+
+* **error-type:** Look at error type for quota ([a99b7da](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/a99b7da03796f2ef32eebbdc98dabee39662a438))
+
 # [1.1.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.0.1...v1.1.0) (2022-10-15)
 
 
