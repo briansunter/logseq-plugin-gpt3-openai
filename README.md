@@ -106,6 +106,7 @@ See [this article for a good overview.](https://www.vox.com/future-perfect/21355
 Your free trial is over, or you've run out of tokens. You can refill your tokens [here](https://beta.openai.com/account/billing/overview).
 #### `OpenAI Rate Limited`
 OpenAI has limits on how often you can call them. If you get this error, you'll need to wait a bit before trying again. See this [article](https://help.openai.com/en/articles/5955598-is-api-usage-subject-to-any-rate-limits) for more info on the rate limits. You can call it faster if you have a paid account.
+
 #### `Refused to set unsafe header "User Agent"`
 This error doesn't cause any issues besides the error message in the console. It's a known issue with the OpenAI API. See [this issue](https://github.com/openai/openai-node/issues/6) for more details. I'm working on a PR to their library to support browser usage. Ignore this error for now.
 
