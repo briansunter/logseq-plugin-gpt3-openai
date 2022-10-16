@@ -65,7 +65,7 @@ async function runOpenAI(b: IHookEvent) {
             return false;
           }
           if (err.response.status === 429) {
-            const errorCode = err.response.data.error.code;
+            const errorCode = err.response.data.error.type;
             if (errorCode === "insufficient_quota") {
               return false;
             }
@@ -113,7 +113,7 @@ async function runOpenAI(b: IHookEvent) {
         console.error("OpenAI API key is invalid.");
         logseq.App.showMsg("Invalid OpenAI API Key.", "error");
       } else if (httpStatus === 429) {
-        if (errorCode === "insufficient_quota") {
+        if (errorType === "insufficient_quota") {
           console.error(
             "Exceeded OpenAI API quota. Or your trial is over. You can buy more at https://beta.openai.com/account/billing/overview"
           );
