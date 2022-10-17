@@ -2,7 +2,6 @@ import "./style.css";
 import "@logseq/libs";
 import { openAI } from "./lib/openai";
 import { SettingSchemaDesc, IHookEvent } from "@logseq/libs/dist/LSPlugin.user";
-import { backOff } from "exponential-backoff";
 
 const settingsSchema: SettingSchemaDesc[] = [
   {
@@ -38,6 +37,7 @@ const settingsSchema: SettingSchemaDesc[] = [
   },
 ];
 
+
 logseq.useSettingsSchema(settingsSchema);
 
 async function runOpenAI(b: IHookEvent) {
@@ -58,33 +58,13 @@ async function runOpenAI(b: IHookEvent) {
   const currentBlock = await logseq.Editor.getBlock(b.uuid);
   if (currentBlock) {
     try {
-      const retryOptions = {
-        numOfAttempts: 3,
-        retry: (err: any) => {
-          if (!err.response || !err.response.data || !err.response.data.error) {
-            return false;
-          }
-          if (err.response.status === 429) {
-            const errorType = err.response.data.error.type;
-            if (errorType === "insufficient_quota") {
-              return false;
-            }
-            console.warn("Rate limit exceeded. Retrying...");
-            return true;
-          }
-          return false;
-        },
-      };
-      const result = await backOff(
-        () =>
+      const result = await 
           openAI(currentBlock.content, {
             apiKey,
             completionEngine,
             maxTokens,
             temperature,
-          }),
-        retryOptions
-      );
+          })
       if (result) {
         await logseq.Editor.insertBlock(currentBlock.uuid, result, {
           sibling: false,
