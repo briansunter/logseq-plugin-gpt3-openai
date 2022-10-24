@@ -40,53 +40,53 @@ const settingsSchema: SettingSchemaDesc[] = [
 
 logseq.useSettingsSchema(settingsSchema);
 
-function getOpenaiSettings(): OpenAIOptions{
+function getOpenaiSettings(): OpenAIOptions {
   const apiKey = logseq.settings!["openAIKey"];
   const completionEngine = logseq.settings!["openAICompletionEngine"];
   const temperature = Number.parseFloat(logseq.settings!["openAITemperature"]);
   const maxTokens = Number.parseInt(logseq.settings!["openAIMaxTokens"]);
-  return {apiKey,completionEngine,temperature,maxTokens};
+  return { apiKey, completionEngine, temperature, maxTokens };
 }
 
-function handleOpenAIError(e: any){
-      if (
-        !e.response ||
-        !e.response.status ||
-        !e.response.data ||
-        !e.response.data.error
-      ) {
-        console.error(`Unknown OpenAI error: ${e}`);
-        logseq.App.showMsg("Unknown OpenAI Error", "error");
-        return;
-      }
+function handleOpenAIError(e: any) {
+  if (
+    !e.response ||
+    !e.response.status ||
+    !e.response.data ||
+    !e.response.data.error
+  ) {
+    console.error(`Unknown OpenAI error: ${e}`);
+    logseq.App.showMsg("Unknown OpenAI Error", "error");
+    return;
+  }
 
-      const httpStatus = e.response.status;
-      const errorCode = e.response.data.error.code;
-      const errorMessage = e.response.data.error.message;
-      const errorType = e.response.data.error.type;
+  const httpStatus = e.response.status;
+  const errorCode = e.response.data.error.code;
+  const errorMessage = e.response.data.error.message;
+  const errorType = e.response.data.error.type;
 
-      if (httpStatus === 401) {
-        console.error("OpenAI API key is invalid.");
-        logseq.App.showMsg("Invalid OpenAI API Key.", "error");
-      } else if (httpStatus === 429) {
-        if (errorType === "insufficient_quota") {
-          console.error(
-            "Exceeded OpenAI API quota. Or your trial is over. You can buy more at https://beta.openai.com/account/billing/overview"
-          );
-          logseq.App.showMsg("OpenAI Quota Reached", "error");
-        } else {
-          console.warn(
-            "OpenAI API rate limit exceeded. Try slowing down your requests."
-          );
-          logseq.App.showMsg("OpenAI Rate Limited", "warning");
-        }
-      } else {
-        logseq.App.showMsg("OpenAI Plugin Error", "error");
-      }
-      console.error(`OpenAI error: ${errorType} ${errorCode}  ${errorMessage}`);
+  if (httpStatus === 401) {
+    console.error("OpenAI API key is invalid.");
+    logseq.App.showMsg("Invalid OpenAI API Key.", "error");
+  } else if (httpStatus === 429) {
+    if (errorType === "insufficient_quota") {
+      console.error(
+        "Exceeded OpenAI API quota. Or your trial is over. You can buy more at https://beta.openai.com/account/billing/overview"
+      );
+      logseq.App.showMsg("OpenAI Quota Reached", "error");
+    } else {
+      console.warn(
+        "OpenAI API rate limit exceeded. Try slowing down your requests."
+      );
+      logseq.App.showMsg("OpenAI Rate Limited", "warning");
+    }
+  } else {
+    logseq.App.showMsg("OpenAI Plugin Error", "error");
+  }
+  console.error(`OpenAI error: ${errorType} ${errorCode}  ${errorMessage}`);
 }
 
-function validateSettings(settings: OpenAIOptions){
+function validateSettings(settings: OpenAIOptions) {
   if (!settings.apiKey) {
     console.error("Need API key set in settings.");
     logseq.App.showMsg(
@@ -104,9 +104,7 @@ async function runGptBlock(b: IHookEvent) {
   const currentBlock = await logseq.Editor.getBlock(b.uuid);
   if (currentBlock) {
     try {
-      const result = await 
-          openAI(currentBlock.content, 
-          openAISettings)
+      const result = await openAI(currentBlock.content, openAISettings);
       if (result) {
         await logseq.Editor.insertBlock(currentBlock.uuid, result, {
           sibling: false,
@@ -126,22 +124,20 @@ async function runGptPage(b: IHookEvent) {
 
   const pageContents = await getPageContentFromBlock(b.uuid);
   const currentBlock = await logseq.Editor.getBlock(b.uuid);
-  if (!currentBlock){
+  if (!currentBlock) {
     return;
   }
   const page = await logseq.Editor.getPage(currentBlock.page.id);
-  if (!page){
+  if (!page) {
     return;
   }
 
   console.log(pageContents);
   if (pageContents.length > 0 && currentBlock) {
     try {
-      const result = await 
-          openAI(pageContents, 
-          openAISettings)
+      const result = await openAI(pageContents, openAISettings);
       if (result) {
-        await logseq.Editor.appendBlockInPage(page.uuid, result)
+        await logseq.Editor.appendBlockInPage(page.uuid, result);
       } else {
         logseq.App.showMsg("No OpenAI results.", "warning");
       }
