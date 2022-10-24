@@ -1,7 +1,7 @@
 import { Configuration, OpenAIApi } from "openai";
 import "@logseq/libs";
 import { backOff } from "exponential-backoff";
-interface OpenAIOptions {
+export interface OpenAIOptions {
   apiKey: string;
   completionEngine?: string;
   temperature?: number;

@@ -1,6 +1,7 @@
 import "./style.css";
 import "@logseq/libs";
-import { openAI } from "./lib/openai";
+import { openAI, OpenAIOptions } from "./lib/openai";
+import { getPageContentFromBlock, lastBlockOnPageOfBlock } from "./lib/logseq";
 import { SettingSchemaDesc, IHookEvent } from "@logseq/libs/dist/LSPlugin.user";
 
 const settingsSchema: SettingSchemaDesc[] = [
@@ -37,42 +38,17 @@ const settingsSchema: SettingSchemaDesc[] = [
   },
 ];
 
-
 logseq.useSettingsSchema(settingsSchema);
 
-async function runOpenAI(b: IHookEvent) {
+function getOpenaiSettings(): OpenAIOptions{
   const apiKey = logseq.settings!["openAIKey"];
   const completionEngine = logseq.settings!["openAICompletionEngine"];
   const temperature = Number.parseFloat(logseq.settings!["openAITemperature"]);
   const maxTokens = Number.parseInt(logseq.settings!["openAIMaxTokens"]);
+  return {apiKey,completionEngine,temperature,maxTokens};
+}
 
-  if (!apiKey) {
-    console.error("Need API key set in settings.");
-    logseq.App.showMsg(
-      "Need openai API key. Add one in plugin settings.",
-      "error"
-    );
-    return;
-  }
-
-  const currentBlock = await logseq.Editor.getBlock(b.uuid);
-  if (currentBlock) {
-    try {
-      const result = await 
-          openAI(currentBlock.content, {
-            apiKey,
-            completionEngine,
-            maxTokens,
-            temperature,
-          })
-      if (result) {
-        await logseq.Editor.insertBlock(currentBlock.uuid, result, {
-          sibling: false,
-        });
-      } else {
-        logseq.App.showMsg("No OpenAI results.", "warning");
-      }
-    } catch (e: any) {
+function handleOpenAIError(e: any){
       if (
         !e.response ||
         !e.response.status ||
@@ -108,12 +84,78 @@ async function runOpenAI(b: IHookEvent) {
         logseq.App.showMsg("OpenAI Plugin Error", "error");
       }
       console.error(`OpenAI error: ${errorType} ${errorCode}  ${errorMessage}`);
+}
+
+function validateSettings(settings: OpenAIOptions){
+  if (!settings.apiKey) {
+    console.error("Need API key set in settings.");
+    logseq.App.showMsg(
+      "Need openai API key. Add one in plugin settings.",
+      "error"
+    );
+    throw new Error("Need API key set in settings.");
+  }
+}
+
+async function runGptBlock(b: IHookEvent) {
+  const openAISettings = getOpenaiSettings();
+  validateSettings(openAISettings);
+
+  const currentBlock = await logseq.Editor.getBlock(b.uuid);
+  if (currentBlock) {
+    try {
+      const result = await 
+          openAI(currentBlock.content, 
+          openAISettings)
+      if (result) {
+        await logseq.Editor.insertBlock(currentBlock.uuid, result, {
+          sibling: false,
+        });
+      } else {
+        logseq.App.showMsg("No OpenAI results.", "warning");
+      }
+    } catch (e: any) {
+      handleOpenAIError(e);
     }
   }
 }
+
+async function runGptPage(b: IHookEvent) {
+  const openAISettings = getOpenaiSettings();
+  validateSettings(openAISettings);
+
+  const pageContents = await getPageContentFromBlock(b.uuid);
+  const currentBlock = await logseq.Editor.getBlock(b.uuid);
+  if (!currentBlock){
+    return;
+  }
+  const page = await logseq.Editor.getPage(currentBlock.page.id);
+  if (!page){
+    return;
+  }
+
+  console.log(pageContents);
+  if (pageContents.length > 0 && currentBlock) {
+    try {
+      const result = await 
+          openAI(pageContents, 
+          openAISettings)
+      if (result) {
+        await logseq.Editor.appendBlockInPage(page.uuid, result)
+      } else {
+        logseq.App.showMsg("No OpenAI results.", "warning");
+      }
+    } catch (e: any) {
+      handleOpenAIError(e);
+    }
+  }
+}
+
 async function main() {
-  logseq.Editor.registerSlashCommand("gpt3", runOpenAI);
-  logseq.Editor.registerBlockContextMenuItem("gpt3", runOpenAI);
+  logseq.Editor.registerSlashCommand("gpt3-block", runGptBlock);
+  logseq.Editor.registerBlockContextMenuItem("gpt3-block", runGptBlock);
+  logseq.Editor.registerSlashCommand("gpt-page", runGptPage);
+  logseq.Editor.registerBlockContextMenuItem("gpt3-page", runGptPage);
 }
 
 logseq.ready(main).catch(console.error);
