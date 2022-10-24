@@ -1,7 +1,7 @@
 import "./style.css";
 import "@logseq/libs";
 import { openAI, OpenAIOptions } from "./lib/openai";
-import { getPageContentFromBlock, lastBlockOnPageOfBlock } from "./lib/logseq";
+import { getPageContentFromBlock } from "./lib/logseq";
 import { SettingSchemaDesc, IHookEvent } from "@logseq/libs/dist/LSPlugin.user";
 
 const settingsSchema: SettingSchemaDesc[] = [
