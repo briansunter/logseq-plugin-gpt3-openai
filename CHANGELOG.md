@@ -1,3 +1,10 @@
+# [1.2.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.1.2...v1.2.0) (2022-11-01)
+
+
+### Features
+
+* **gpt-page:** Add gpt-page command to send entire page to gpt3  ([#46](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/46)) ([3a84fe0](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/3a84fe05344a92bcfe5b2089ec2e38f6e56e4a3d))
+
 ## [1.1.2](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.1.1...v1.1.2) (2022-10-16)
 
 
