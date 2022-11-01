@@ -21,15 +21,27 @@
     <br>
 </p>
 
-## Usage
-
-Just type `/gpt3` in a block or select `gpt3` from the block menu.
-
-[See here for example usages](https://beta.openai.com/examples).
-
 ## Demo
 
 ![logseq gpt3 openai demo](docs/demo.gif)
+
+## Usage
+### `gpt-block`
+
+Type `/gpt-block` in a block or select `gpt-block` from the block menu.
+
+`gpt-block` will send the block to OpenAI's GPT-3 API and append the response underneath the block.
+
+![logseq gpt-block](docs/gpt-block.gif)
+
+### `gpt-page`
+Type `/gpt-page` in a block or select `gpt-page` from the block menu.
+
+`gpt-page` will send the entire page to OpenAI's GPT-3 API and append the response to the bottom of the page.
+
+![logseq gpt-page](docs/gpt-page.gif)
+### OpenAI Examples
+[See here for example usages](https://beta.openai.com/examples).
 
 ## 📝 Table of Contents
 
@@ -48,7 +60,7 @@ Just type `/gpt3` in a block or select `gpt3` from the block menu.
 
 `logseq-plugin-gpt3-openai` allows users to generate human-like text using GPT-3 within the LogSeq editor.
 
-Write a GPT-3 command in a block, then run the open `gpt3` command via the slash or block menu. The plugin will generate a GPT-3 response using the OpenAI API and insert it beneath the block.
+Write a GPT-3 command in a block, then run the open `/gpt` command via the slash or block menu. The plugin will generate a GPT-3 response using the OpenAI API and insert it below. It removes leading and trailing whitespace from the prompt.
 
 ## Getting Started <a name = "getting_started"></a>
 
@@ -58,6 +70,9 @@ Write a GPT-3 command in a block, then run the open `gpt3` command via the slash
 
 - Download the plugin in the Logseq marketplace by searching for `gpt3` or `openai`.
 
+## ⚠️ Warning ⚠️
+
+GPT-3 has limitations. It sometimes produces output that is subtly wrong or misleading. Don't rely on its output without verifying it yourself. Use it with caution.
 ## Example Use Cases <a name = "examples"></a>
 
 ## Summarizing or explaining a block of text
@@ -80,6 +95,11 @@ Write a GPT-3 command in a block, then run the open `gpt3` command via the slash
 
 ![logseq gpt3 openai table](docs/table.gif)
 
+### Just for fun
+
+
+![](docs/weirdpizza.gif)
+
 - Generate code to do a given task
 - Correct grammar
 - Translate into other languages
@@ -91,11 +111,6 @@ Write a GPT-3 command in a block, then run the open `gpt3` command via the slash
   - `Write a tagline for an ice cream shop.`
 - Answer Questions
   - `Q: How does a telescope work?`
-## Just for fun
-
-### Crazy recipes
-
-![](docs/weirdpizza.gif)]
 ## FAQ <a name = "faq"></a>
 ### What is GPT-3 and OpenAI, and how does it work?
 See [this article for a good overview.](https://www.vox.com/future-perfect/21355768/gpt-3-ai-openai-turing-test-language)
