@@ -1,5 +1,6 @@
 {
   "name": "logseq-plugin-gpt3-openai",
+  "author": "Brian Sunter",
   "private": true,
   "version": "1.1.2",
   "main": "dist/index.html",
