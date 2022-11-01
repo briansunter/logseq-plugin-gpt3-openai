@@ -151,7 +151,6 @@ async function runGptPage(b: IHookEvent) {
     return;
   }
 
-  console.log(pageContents);
   try {
     const result = await openAI(pageContents, openAISettings);
 
