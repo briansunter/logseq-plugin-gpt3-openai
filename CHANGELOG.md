@@ -1,3 +1,10 @@
+## [1.2.1](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.2.0...v1.2.1) (2022-11-01)
+
+
+### Bug Fixes
+
+* **console-log:** remove extra console.log ([a631fc4](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/a631fc45172a13f9a6d0a7479666143245aa00b2))
+
 # [1.2.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.1.2...v1.2.0) (2022-11-01)
 
 
