@@ -60,7 +60,7 @@ export async function openAI(
   );
 
   const choices = response.data.choices;
-  if (choices && choices[0] && choices[0].text) {
+  if (choices && choices[0] && choices[0].text && choices[0].text.length > 0) {
     return choices[0].text;
   } else {
     return null;
