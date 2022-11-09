@@ -1,11 +1,14 @@
-import { Configuration, OpenAIApi } from "openai";
+import { Configuration, CreateImageRequestSizeEnum, OpenAIApi } from "openai";
 import "@logseq/libs";
 import { backOff } from "exponential-backoff";
+
+export type DalleImageSize = 256 | 512 | 1024;
 export interface OpenAIOptions {
   apiKey: string;
   completionEngine?: string;
   temperature?: number;
   maxTokens?: number;
+  dalleImageSize?: DalleImageSize;
 }
 
 const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
@@ -13,6 +16,7 @@ const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
   completionEngine: "text-davinci-002",
   temperature: 1.0,
   maxTokens: 1000,
+  dalleImageSize: 1024,
 });
 
 const retryOptions = {
@@ -32,7 +36,27 @@ const retryOptions = {
     return false;
   },
 };
+export async function dallE(
+  prompt: string,
+  openAiOptions: OpenAIOptions
+): Promise<string | undefined> {
+  const options = { ...OpenAIDefaults(openAiOptions.apiKey), ...openAiOptions };
 
+  const configuration = new Configuration({
+    apiKey: options.apiKey,
+  });
+
+  const openai = new OpenAIApi(configuration);
+const imageSizeRequest: CreateImageRequestSizeEnum = `${options.dalleImageSize}x${options.dalleImageSize}` as CreateImageRequestSizeEnum;
+
+  const response = await backOff(() => openai.createImage({
+    prompt,
+    n: 1,
+    size: imageSizeRequest,
+  }), retryOptions);
+  return response.data.data[0].url;
+}
+  
 export async function openAI(
   input: string,
   openAiOptions: OpenAIOptions
@@ -44,17 +68,19 @@ export async function openAI(
     apiKey: options.apiKey,
   });
 
+
   const openai = new OpenAIApi(configuration);
 
   const response = await backOff(
     () =>
-      openai.createCompletion(engine, {
+      openai.createCompletion({
         prompt: input,
         temperature: options.temperature,
         max_tokens: options.maxTokens,
         top_p: 1,
         frequency_penalty: 0,
         presence_penalty: 0,
+        model: engine
       }),
     retryOptions
   );

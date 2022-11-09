@@ -30,7 +30,7 @@ async function getTreeContent(b: BlockEntity) {
   return content;
 }
 
-async function getPageContentFromBlock(b: BlockEntity): Promise<string> {
+export async function getPageContentFromBlock(b: BlockEntity): Promise<string> {
   let blockContents = [];
 
   const currentBlock = await logseq.Editor.getBlock(b);
@@ -53,4 +53,14 @@ async function getPageContentFromBlock(b: BlockEntity): Promise<string> {
   return blockContents.join(" ");
 }
 
-export { getPageContentFromBlock };
+export async function saveDalleImage( imageURL: string): Promise<string>{
+  const s = logseq.Assets.makeSandboxStorage()
+  const imageName = `dalle-${Date.now()}.png`;
+  
+  const response = await fetch(imageURL);
+  
+  const responseArrayBuffer: any = await response.arrayBuffer();
+  await s.setItem(imageName, responseArrayBuffer);
+  const imageFileName = `![](assets/storages/_79n711y6e/${imageName})`;
+  return imageFileName;
+}
