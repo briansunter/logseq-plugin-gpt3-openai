@@ -1,3 +1,10 @@
+## [1.3.1](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.3.0...v1.3.1) (2022-11-09)
+
+
+### Bug Fixes
+
+* **prod-image-path:** image path is different in prod ([2cc757d](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/2cc757dee751efb7eed6b3ada76baf4aa54ad828))
+
 # [1.3.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.2.1...v1.3.0) (2022-11-09)
 
 
