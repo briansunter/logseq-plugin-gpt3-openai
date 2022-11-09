@@ -1,11 +1,14 @@
-import { Configuration, OpenAIApi } from "openai";
+import { Configuration, CreateImageRequestSizeEnum, OpenAIApi } from "openai";
 import "@logseq/libs";
 import { backOff } from "exponential-backoff";
+
+export type DalleImageSize = 256 | 512 | 1024;
 export interface OpenAIOptions {
   apiKey: string;
   completionEngine?: string;
   temperature?: number;
   maxTokens?: number;
+  dalleImageSize?: DalleImageSize;
 }
 
 const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
@@ -13,6 +16,7 @@ const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
   completionEngine: "text-davinci-002",
   temperature: 1.0,
   maxTokens: 1000,
+  dalleImageSize: 1024,
 });
 
 const retryOptions = {
@@ -42,14 +46,14 @@ export async function dallE(
     apiKey: options.apiKey,
   });
 
-
   const openai = new OpenAIApi(configuration);
+const imageSizeRequest: CreateImageRequestSizeEnum = `${options.dalleImageSize}x${options.dalleImageSize}` as CreateImageRequestSizeEnum;
 
-  const response = await openai.createImage({
+  const response = await backOff(() => openai.createImage({
     prompt,
     n: 1,
-    size: "1024x1024",
-  });
+    size: imageSizeRequest,
+  }), retryOptions);
   return response.data.data[0].url;
 }
   

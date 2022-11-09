@@ -1,7 +1,7 @@
 import "./style.css";
 import "@logseq/libs";
-import { openAI, OpenAIOptions, dallE } from "./lib/openai";
-import { getPageContentFromBlock } from "./lib/logseq";
+import { openAI, OpenAIOptions, dallE, DalleImageSize } from "./lib/openai";
+import { getPageContentFromBlock, saveDalleImage } from "./lib/logseq";
 import { SettingSchemaDesc, IHookEvent } from "@logseq/libs/dist/LSPlugin.user";
 
 const settingsSchema: SettingSchemaDesc[] = [
@@ -36,6 +36,14 @@ const settingsSchema: SettingSchemaDesc[] = [
     description:
       "The maximum amount of tokens to generate. Tokens can be words or just chunks of characters. The number of tokens processed in a given API request depends on the length of both your inputs and outputs. As a rough rule of thumb, 1 token is approximately 4 characters or 0.75 words for English text. One limitation to keep in mind is that your text prompt and generated completion combined must be no more than the model's maximum context length (for most models this is 2048 tokens, or about 1500 words).",
   },
+  {
+    key: "dalleImageSize",
+    type: "number",
+    default: 1024,
+    title: "DALL-E Image Size",
+    description:
+      "Size of the image to generate. Can be 256, 512, or 1024. Smaller images are faster to generate.",
+  },
 ];
 
 logseq.useSettingsSchema(settingsSchema);
@@ -45,7 +53,8 @@ function getOpenaiSettings(): OpenAIOptions {
   const completionEngine = logseq.settings!["openAICompletionEngine"];
   const temperature = Number.parseFloat(logseq.settings!["openAITemperature"]);
   const maxTokens = Number.parseInt(logseq.settings!["openAIMaxTokens"]);
-  return { apiKey, completionEngine, temperature, maxTokens };
+  const dalleImageSize = Number.parseInt(logseq.settings!["dalleImageSize"]) as DalleImageSize
+  return { apiKey, completionEngine, temperature, maxTokens, dalleImageSize };
 }
 
 function handleOpenAIError(e: any) {
@@ -94,6 +103,15 @@ function validateSettings(settings: OpenAIOptions) {
       "error"
     );
     throw new Error("Need API key set in settings.");
+  }
+
+if (settings.dalleImageSize !== 256 && settings.dalleImageSize !== 512 && settings.dalleImageSize !== 1024) {
+    console.error("DALL-E image size must be 256, 512, or 1024.");
+    logseq.App.showMsg(
+      "DALL-E image size must be 256, 512, or 1024.",
+      "error"
+    );
+    throw new Error("DALL-E image size must be 256, 512, or 1024.");
   }
 }
 
@@ -186,27 +204,11 @@ async function runDalleBlock(b: IHookEvent){
       logseq.App.showMsg("No Dalle results.", "warning");
       return;
     }
-    const s = logseq.Assets.makeSandboxStorage()
-    const imageName = `dalle-${Date.now()}.png`;
-    
-    const xhr = new XMLHttpRequest()
-    xhr.open('GET', imageURL, true)
-xhr.responseType = 'arraybuffer'
-xhr.onload = function (e) {
-  // Obtain a blob: URL for the image data.
-  s.setItem(
-    imageName,
-    xhr.response,
-  ).then(async (one) => {
-    logseq.UI.showMsg(`Write DONE 🎉 - ${one}`, 'success')
-    const imageResult = `![](assets/storages/_79n711y6e/${imageName})`;
-
-    await logseq.Editor.insertBlock(currentBlock.uuid, imageResult, {
+   const imageFileName = await saveDalleImage(imageURL);
+    await logseq.Editor.insertBlock(currentBlock.uuid, imageFileName, {
      sibling: false,
     });
-  })
-}
-xhr.send()
+
   
   } catch (e: any) {
     handleOpenAIError(e);
@@ -218,6 +220,8 @@ async function main() {
   logseq.Editor.registerSlashCommand("gpt-block", runGptBlock);
   logseq.Editor.registerBlockContextMenuItem("gpt-block", runGptBlock);
   logseq.Editor.registerSlashCommand("dalle", runDalleBlock);
+  logseq.Editor.registerBlockContextMenuItem("dalle", runDalleBlock);
+
 
 }
 
