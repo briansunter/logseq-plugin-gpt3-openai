@@ -1,3 +1,10 @@
+# [1.3.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.2.1...v1.3.0) (2022-11-09)
+
+
+### Features
+
+* **dalle:** Add support for OpenAI DALL-E ([#49](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/49)) ([c9a8adb](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/c9a8adb96cd79680f4b0c2d2628835797cfe0e1c))
+
 ## [1.2.1](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.2.0...v1.2.1) (2022-11-01)
 
 
