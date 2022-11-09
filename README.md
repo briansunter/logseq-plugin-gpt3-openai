@@ -40,6 +40,14 @@ Type `/gpt-page` in a block or select `gpt-page` from the block menu.
 `gpt-page` will send the entire page to OpenAI's GPT-3 API and append the response to the bottom of the page.
 
 ![logseq gpt-page](docs/gpt-page.gif)
+
+### `dalle`
+Type `/dalle` in a block or select `dalle` from the block menu.
+
+This will generate an image using the DALL-E model, save the image to the `assets` folder, and insert the image into the block.
+
+![logseq dalle](docs/dalle.gif)
+
 ### OpenAI Examples
 [See here for example usages](https://beta.openai.com/examples).
 

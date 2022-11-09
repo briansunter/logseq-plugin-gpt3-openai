@@ -194,7 +194,7 @@ async function runDalleBlock(b: IHookEvent){
 
   if (currentBlock.content.trim().length === 0) {
     logseq.App.showMsg("Empty Content", "warning");
-    console.warn("Blank page");
+    console.warn("Blank block");
     return;
   }
 
