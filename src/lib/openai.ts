@@ -32,7 +32,27 @@ const retryOptions = {
     return false;
   },
 };
+export async function dallE(
+  prompt: string,
+  openAiOptions: OpenAIOptions
+): Promise<string | undefined> {
+  const options = { ...OpenAIDefaults(openAiOptions.apiKey), ...openAiOptions };
 
+  const configuration = new Configuration({
+    apiKey: options.apiKey,
+  });
+
+
+  const openai = new OpenAIApi(configuration);
+
+  const response = await openai.createImage({
+    prompt,
+    n: 1,
+    size: "1024x1024",
+  });
+  return response.data.data[0].url;
+}
+  
 export async function openAI(
   input: string,
   openAiOptions: OpenAIOptions
@@ -44,17 +64,19 @@ export async function openAI(
     apiKey: options.apiKey,
   });
 
+
   const openai = new OpenAIApi(configuration);
 
   const response = await backOff(
     () =>
-      openai.createCompletion(engine, {
+      openai.createCompletion({
         prompt: input,
         temperature: options.temperature,
         max_tokens: options.maxTokens,
         top_p: 1,
         frequency_penalty: 0,
         presence_penalty: 0,
+        model: engine
       }),
     retryOptions
   );

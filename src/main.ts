@@ -1,6 +1,6 @@
 import "./style.css";
 import "@logseq/libs";
-import { openAI, OpenAIOptions } from "./lib/openai";
+import { openAI, OpenAIOptions, dallE } from "./lib/openai";
 import { getPageContentFromBlock } from "./lib/logseq";
 import { SettingSchemaDesc, IHookEvent } from "@logseq/libs/dist/LSPlugin.user";
 
@@ -164,12 +164,61 @@ async function runGptPage(b: IHookEvent) {
     handleOpenAIError(e);
   }
 }
+async function runDalleBlock(b: IHookEvent){
+  const openAISettings = getOpenaiSettings();
+  validateSettings(openAISettings);
 
+  const currentBlock = await logseq.Editor.getBlock(b.uuid);
+  if (!currentBlock) {
+    console.error("No current block");
+    return;
+  }
+
+  if (currentBlock.content.trim().length === 0) {
+    logseq.App.showMsg("Empty Content", "warning");
+    console.warn("Blank page");
+    return;
+  }
+
+  try {
+    const imageURL = await dallE(currentBlock.content, openAISettings);
+    if (!imageURL) {
+      logseq.App.showMsg("No Dalle results.", "warning");
+      return;
+    }
+    const s = logseq.Assets.makeSandboxStorage()
+    const imageName = `dalle-${Date.now()}.png`;
+    
+    const xhr = new XMLHttpRequest()
+    xhr.open('GET', imageURL, true)
+xhr.responseType = 'arraybuffer'
+xhr.onload = function (e) {
+  // Obtain a blob: URL for the image data.
+  s.setItem(
+    imageName,
+    xhr.response,
+  ).then(async (one) => {
+    logseq.UI.showMsg(`Write DONE 🎉 - ${one}`, 'success')
+    const imageResult = `![](assets/storages/_79n711y6e/${imageName})`;
+
+    await logseq.Editor.insertBlock(currentBlock.uuid, imageResult, {
+     sibling: false,
+    });
+  })
+}
+xhr.send()
+  
+  } catch (e: any) {
+    handleOpenAIError(e);
+  }
+}
 async function main() {
-  logseq.Editor.registerSlashCommand("gpt-block", runGptBlock);
-  logseq.Editor.registerBlockContextMenuItem("gpt-block", runGptBlock);
   logseq.Editor.registerSlashCommand("gpt-page", runGptPage);
   logseq.Editor.registerBlockContextMenuItem("gpt-page", runGptPage);
+  logseq.Editor.registerSlashCommand("gpt-block", runGptBlock);
+  logseq.Editor.registerBlockContextMenuItem("gpt-block", runGptBlock);
+  logseq.Editor.registerSlashCommand("dalle", runDalleBlock);
+
 }
 
 logseq.ready(main).catch(console.error);
