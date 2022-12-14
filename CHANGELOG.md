@@ -1,3 +1,10 @@
+# [1.4.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.3.1...v1.4.0) (2022-12-14)
+
+
+### Features
+
+* **text-davinci-003:** Make davinci 3 the default ([dd72a75](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/dd72a757c5cb12855ab4890946ba81cfae25207c))
+
 ## [1.3.1](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.3.0...v1.3.1) (2022-11-09)
 
 
