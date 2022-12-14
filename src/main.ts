@@ -16,7 +16,7 @@ const settingsSchema: SettingSchemaDesc[] = [
   {
     key: "openAICompletionEngine",
     type: "string",
-    default: "text-davinci-002",
+    default: "text-davinci-003",
     title: "OpenAI Completion Engine",
     description: "See Engines in OpenAI docs.",
   },

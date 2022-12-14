@@ -13,7 +13,7 @@ export interface OpenAIOptions {
 
 const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
   apiKey,
-  completionEngine: "text-davinci-002",
+  completionEngine: "text-davinci-003",
   temperature: 1.0,
   maxTokens: 1000,
   dalleImageSize: 1024,
