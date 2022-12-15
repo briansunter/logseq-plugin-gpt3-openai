@@ -37,6 +37,13 @@ const settingsSchema: SettingSchemaDesc[] = [
       "The maximum amount of tokens to generate. Tokens can be words or just chunks of characters. The number of tokens processed in a given API request depends on the length of both your inputs and outputs. As a rough rule of thumb, 1 token is approximately 4 characters or 0.75 words for English text. One limitation to keep in mind is that your text prompt and generated completion combined must be no more than the model's maximum context length (for most models this is 2048 tokens, or about 1500 words).",
   },
   {
+    key: "injectPrefix",
+    type: "string",
+    default: "",
+    title: "Output prefix",
+    description: "Prepends the output with this string. Such as a tag like [[gpt3]] or markdown like > to blockquote. Add a space at the end if you want a space between the prefix and the output or \\n for a linebreak.",
+  },
+  {
     key: "dalleImageSize",
     type: "number",
     default: 1024,
@@ -46,15 +53,20 @@ const settingsSchema: SettingSchemaDesc[] = [
   },
 ];
 
+interface PluginOptions extends OpenAIOptions {
+  injectPrefix?: string;
+}
+
 logseq.useSettingsSchema(settingsSchema);
 
-function getOpenaiSettings(): OpenAIOptions {
+function getOpenaiSettings(): PluginOptions {
   const apiKey = logseq.settings!["openAIKey"];
   const completionEngine = logseq.settings!["openAICompletionEngine"];
+  const injectPrefix = unescapeNewlines(logseq.settings!["injectPrefix"]);
   const temperature = Number.parseFloat(logseq.settings!["openAITemperature"]);
   const maxTokens = Number.parseInt(logseq.settings!["openAIMaxTokens"]);
   const dalleImageSize = Number.parseInt(logseq.settings!["dalleImageSize"]) as DalleImageSize
-  return { apiKey, completionEngine, temperature, maxTokens, dalleImageSize };
+  return { apiKey, completionEngine, temperature, maxTokens, dalleImageSize, injectPrefix };
 }
 
 function handleOpenAIError(e: any) {
@@ -132,18 +144,23 @@ async function runGptBlock(b: IHookEvent) {
   }
 
   try {
-    const result = await openAI(currentBlock.content, openAISettings);
+    let result = await openAI(currentBlock.content, openAISettings);
     if (!result) {
       logseq.App.showMsg("No OpenAI results.", "warning");
       return;
     }
-
+    if (openAISettings.injectPrefix) {
+      result = openAISettings.injectPrefix + result;
+    }
     await logseq.Editor.insertBlock(currentBlock.uuid, result, {
       sibling: false,
     });
   } catch (e: any) {
     handleOpenAIError(e);
   }
+}
+function unescapeNewlines(s: string) {
+  return s.replace(/\\n/g, "\n");
 }
 
 async function runGptPage(b: IHookEvent) {
@@ -170,11 +187,14 @@ async function runGptPage(b: IHookEvent) {
   }
 
   try {
-    const result = await openAI(pageContents, openAISettings);
+    let result = await openAI(pageContents, openAISettings);
 
     if (!result) {
       logseq.App.showMsg("No OpenAI results.", "warning");
       return;
+    }
+    if (openAISettings.injectPrefix){
+      result = openAISettings.injectPrefix + result;
     }
 
     await logseq.Editor.appendBlockInPage(page.uuid, result);
