@@ -1,3 +1,10 @@
+# [1.5.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.4.0...v1.5.0) (2022-12-15)
+
+
+### Features
+
+* **inject-prefix:** Allows you to add a prefix before generated output ([#62](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/62)) ([e62bdf7](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/e62bdf72b0bd567e4b6910d8df83fc883ea970c8))
+
 # [1.4.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.3.1...v1.4.0) (2022-12-14)
 
 
