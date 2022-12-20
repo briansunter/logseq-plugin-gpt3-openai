@@ -208,7 +208,7 @@ Creates a build using semantic release when a commit is pushed with a smart comm
 
 ## Contributing <a name = "contributing"></a>
 
-Do you have a bug or idea? I would love to hear from you! [Open a Github issue here.](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/new)
+Do you have a bug or idea? I would love to hear from you! [Open a GitHub issue here.](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/new)
 
 PRs welcome. [Open an issue](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/new) to discuss first if possible.
 ## Authors <a name = "authors"></a>
