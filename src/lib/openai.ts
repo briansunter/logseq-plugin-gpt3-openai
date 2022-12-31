@@ -47,16 +47,21 @@ export async function dallE(
   });
 
   const openai = new OpenAIApi(configuration);
-const imageSizeRequest: CreateImageRequestSizeEnum = `${options.dalleImageSize}x${options.dalleImageSize}` as CreateImageRequestSizeEnum;
+  const imageSizeRequest: CreateImageRequestSizeEnum =
+    `${options.dalleImageSize}x${options.dalleImageSize}` as CreateImageRequestSizeEnum;
 
-  const response = await backOff(() => openai.createImage({
-    prompt,
-    n: 1,
-    size: imageSizeRequest,
-  }), retryOptions);
+  const response = await backOff(
+    () =>
+      openai.createImage({
+        prompt,
+        n: 1,
+        size: imageSizeRequest,
+      }),
+    retryOptions
+  );
   return response.data.data[0].url;
 }
-  
+
 export async function openAI(
   input: string,
   openAiOptions: OpenAIOptions
@@ -68,28 +73,40 @@ export async function openAI(
     apiKey: options.apiKey,
   });
 
-
   const openai = new OpenAIApi(configuration);
+  try {
+    const response = await backOff(
+      () =>
+        openai.createCompletion({
+          prompt: input,
+          temperature: options.temperature,
+          max_tokens: options.maxTokens,
+          top_p: 1,
+          frequency_penalty: 0,
+          presence_penalty: 0,
+          model: engine,
+        }),
+      retryOptions
+    );
 
-  const response = await backOff(
-    () =>
-      openai.createCompletion({
-        prompt: input,
-        temperature: options.temperature,
-        max_tokens: options.maxTokens,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0,
-        model: engine
-      }),
-    retryOptions
-  );
-
-  const choices = response.data.choices;
-  if (choices && choices[0] && choices[0].text && choices[0].text.length > 0) {
-    return trimLeadingWhitespace(choices[0].text);
-  } else {
-    return null;
+    const choices = response.data.choices;
+    if (
+      choices &&
+      choices[0] &&
+      choices[0].text &&
+      choices[0].text.length > 0
+    ) {
+      return trimLeadingWhitespace(choices[0].text);
+    } else {
+      return null;
+    }
+  } catch (e: any) {
+    if (e?.response?.data?.error) {
+      console.error(e?.response?.data?.error);
+      throw new Error(e?.response?.data?.error?.message);
+    } else {
+      throw e;
+    }
   }
 }
 
