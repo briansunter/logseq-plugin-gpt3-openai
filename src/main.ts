@@ -51,6 +51,13 @@ const settingsSchema: SettingSchemaDesc[] = [
     description:
       "Size of the image to generate. Can be 256, 512, or 1024. Smaller images are faster to generate.",
   },
+  {
+    key: "shortcutBlock",
+    type: "string",
+    default: "mod+g",
+    title: "Keyboard Shortcut for /gpt-block",
+    description: ""
+  },
 ];
 
 interface PluginOptions extends OpenAIOptions {
@@ -242,7 +249,12 @@ async function main() {
   logseq.Editor.registerSlashCommand("dalle", runDalleBlock);
   logseq.Editor.registerBlockContextMenuItem("dalle", runDalleBlock);
 
-
+  if (logseq.settings!["shortcutBlock"]) {
+    logseq.App.registerCommandShortcut(
+      { "binding": logseq.settings!["shortcutBlock"] },
+      runGptBlock
+    );
+  }
 }
 
 logseq.ready(main).catch(console.error);
