@@ -159,6 +159,40 @@ async function runGptBlock(b: IHookEvent) {
     handleOpenAIError(e);
   }
 }
+
+async function runGptRephraseBlock(b: IHookEvent) {
+  const openAISettings = getOpenaiSettings();
+  validateSettings(openAISettings);
+
+  const currentBlock = await logseq.Editor.getBlock(b.uuid);
+  if (!currentBlock) {
+    console.error("No current block");
+    return;
+  }
+
+  if (currentBlock.content.trim().length === 0) {
+    logseq.App.showMsg("Empty Content", "warning");
+    console.warn("Blank page");
+    return;
+  }
+
+  try {
+    let result = await openAI(currentBlock.content, openAISettings, "rephrase-block");
+    if (!result) {
+      logseq.App.showMsg("No OpenAI results.", "warning");
+      return;
+    }
+    if (openAISettings.injectPrefix) {
+      result = openAISettings.injectPrefix + result;
+    }
+    await logseq.Editor.insertBlock(currentBlock.uuid, result, {
+      sibling: false,
+    });
+  } catch (e: any) {
+    handleOpenAIError(e);
+  }
+}
+
 function unescapeNewlines(s: string) {
   return s.replace(/\\n/g, "\n");
 }
@@ -239,6 +273,8 @@ async function main() {
   logseq.Editor.registerBlockContextMenuItem("gpt-page", runGptPage);
   logseq.Editor.registerSlashCommand("gpt-block", runGptBlock);
   logseq.Editor.registerBlockContextMenuItem("gpt-block", runGptBlock);
+  logseq.Editor.registerSlashCommand("gpt-rephrase", runGptRephraseBlock)
+  logseq.Editor.registerBlockContextMenuItem("gpt-rephrase", runGptRephraseBlock)
   logseq.Editor.registerSlashCommand("dalle", runDalleBlock);
   logseq.Editor.registerBlockContextMenuItem("dalle", runDalleBlock);
 

@@ -59,7 +59,8 @@ const imageSizeRequest: CreateImageRequestSizeEnum = `${options.dalleImageSize}x
   
 export async function openAI(
   input: string,
-  openAiOptions: OpenAIOptions
+  openAiOptions: OpenAIOptions,
+  action: string = "default",
 ): Promise<string | null> {
   const options = { ...OpenAIDefaults(openAiOptions.apiKey), ...openAiOptions };
   const engine = options.completionEngine!;
@@ -68,13 +69,20 @@ export async function openAI(
     apiKey: options.apiKey,
   });
 
-
   const openai = new OpenAIApi(configuration);
+
+  // Build prompt
+  let userPrompt = "";
+  if (action === "rephrase-block") {
+    userPrompt = input + "\nGenerate a variation of the text above. Ideally make it shorter and more engaging.";
+  } else {
+    userPrompt = input;
+  }
 
   const response = await backOff(
     () =>
       openai.createCompletion({
-        prompt: input,
+        prompt: userPrompt,
         temperature: options.temperature,
         max_tokens: options.maxTokens,
         top_p: 1,
