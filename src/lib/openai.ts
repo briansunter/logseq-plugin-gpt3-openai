@@ -74,7 +74,7 @@ export async function openAI(
   // Build prompt
   let userPrompt = "";
   if (action === "rephrase-block") {
-    userPrompt = input + "\nGenerate a variation of the text above. Ideally make it shorter and more engaging.";
+    userPrompt = input + "\nGenerate a variation of the text above. Ideally make it clear, concise, and free of errors.";
   } else {
     userPrompt = input;
   }
