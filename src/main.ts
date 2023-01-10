@@ -54,7 +54,7 @@ const settingsSchema: SettingSchemaDesc[] = [
   {
     key: "shortcutBlock",
     type: "string",
-    default: "mod+g",
+    default: "mod+j",
     title: "Keyboard Shortcut for /gpt-block",
     description: ""
   },
