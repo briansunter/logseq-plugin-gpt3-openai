@@ -1,3 +1,10 @@
+## [1.6.1](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.6.0...v1.6.1) (2023-01-13)
+
+
+### Bug Fixes
+
+* **build:** fix out of date pnpm lockfile ([#71](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/71)) ([de869aa](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/de869aafe240190c1009534a11a6e251c1697bb8))
+
 # [1.6.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.5.0...v1.6.0) (2023-01-13)
 
 
