@@ -2,7 +2,7 @@ import Fuse from "fuse.js";
 import { Command } from "../LogseqAI";
 
 export const makeCustomCommand = (name: string): Command => {
-  return { type: "custom", name: name, prompt: name + "\n" };
+  return { type: "custom", name: name, prompt: name + "\n\n" };
 };
 
 export class CommandQuery {

@@ -8,6 +8,7 @@ name = "Summarize Text"
 description = "Summarize a text document"
 prompt = '''
 Summarize text:
+
 '''
 
 [three-sentence-summary]
@@ -15,6 +16,7 @@ name = "Three Sentence Summary"
 description = "Summarize a text document into three sentences"
 prompt = '''
 Summarize text into three sentences:
+
 '''
 
 [write-introduction]
@@ -22,6 +24,7 @@ name = "Write Introduction"
 description = "Write an introduction for a text document"
 prompt = '''
 Write an introduction for the following text:
+
 '''
 
 [write-conclusion]
@@ -29,6 +32,7 @@ name = "Write Conclusion"
 description = "Write a conclusion for a text document"
 prompt = '''
 Write a conclusion for the following text:
+
 '''
 
 [create-outline]
@@ -36,6 +40,7 @@ name = "Create Outline"
 description = "Create an outline from text"
 prompt = '''
 Create outline from text:
+
 '''
 
 [extract-keywords]
@@ -43,6 +48,7 @@ name = "Extract Keywords"
 description = "Extract keywords from text"
 prompt = '''
 Extract keywords from text:
+
 '''
 
 [extract-entities]
@@ -50,6 +56,7 @@ name = "Extract Entities"
 description = "Extract entities from a text"
 prompt = '''
 Extract entities from text:
+
 '''
 
 [brainstorm-ideas]
@@ -57,6 +64,7 @@ name = "Brainstorm Ideas"
 description = "Brainstorm ideas using text"
 prompt = '''
 Brainstorm ideas using the following text:
+
 '''
 
 [ask-questions]
@@ -64,6 +72,7 @@ name = "Ask Questions"
 description = "Ask questions from text"
 prompt = '''
 Ask questions about the following text:
+
 '''
 
 [common-objections]
@@ -71,6 +80,7 @@ name = "Common Objections"
 description = "Find common objections to your idea"
 prompt = '''
 Find common objections to the following idea:
+
 '''
 
 [find-contradictions]
@@ -78,6 +88,7 @@ name = "Find Contradictions"
 description = "Find contradictions in text"
 prompt = '''
 Find contradictions in the following text:
+
 '''
 
 [define]
@@ -105,6 +116,7 @@ name = "Markdown Table"
 description = "Create a markdown table"
 prompt = '''
 Create a markdown table using the following text:
+
 '''
 
 [find-quotes]
@@ -119,6 +131,7 @@ name = "Convert Links to Markdown"
 description = "Convert links to markdown"
 prompt = '''
 Convert links in the following text to markdown:
+
 '''
 
 [most-important-ideas]
@@ -126,6 +139,7 @@ name = "Most Important Ideas"
 description = "Find the most important ideas in text"
 prompt = '''
 Find the most important ideas in the following text:
+
 '''
 
 [write-blog-post]
@@ -133,6 +147,7 @@ name = "Write Blog Post"
 description = "Write a blog post about topic"
 prompt = '''
 Write a blog post about the following text:
+
 '''
 
 [write-tweet]
@@ -140,6 +155,7 @@ name = "Write Tweet"
 description = "Write a tweet in less than 280 characters about the following topic:"
 prompt = '''
 Write a tweet about:
+
 '''
 
 [fix-grammar]
@@ -147,6 +163,7 @@ name = "Fix Grammar"
 description = "Fix grammar in text"
 prompt = '''
 Fix grammar in the following text:
+
 '''
 
 [fix-spelling]
@@ -154,6 +171,7 @@ name = "Fix Spelling"
 description = "Fix spelling in text"
 prompt = '''
 Fix spelling in the following text:
+
 '''
 
 
@@ -162,6 +180,7 @@ name = "Translate to English"
 description = "Translate text to English"
 prompt = '''
 Translate text to English:
+
 '''
 
 [translate-to-chinese]
@@ -169,6 +188,7 @@ name = "Translate to Chinese"
 description = "Translate text to Chinese"
 prompt = '''
 Translate text to Chinese:
+
 '''
 
 [translate-to-spanish]
@@ -176,6 +196,7 @@ name = "Translate to Spanish"
 description = "Translate text to Spanish"
 prompt = '''
 Translate text to Spanish:
+
 '''
 
 [translate-to-german]
@@ -183,6 +204,7 @@ name = "Translate to German"
 description = "Translate text to German"
 prompt = '''
 Translate text to German:
+
 '''
 
 [translate-to-french]
@@ -190,6 +212,7 @@ name = "Translate to French"
 description = "Translate text to French"
 prompt = '''
 Translate text to French:
+
 '''
 
 [translate-to-italian]
@@ -197,6 +220,7 @@ name = "Translate to Italian"
 description = "Translate text to Italian"
 prompt = '''
 Translate text to Italian:
+
 '''
 
 [translate-to-japanese]
@@ -204,6 +228,7 @@ name = "Translate to Japanese"
 description = "Translate text to Japanese"
 prompt = '''
 Translate text to Japanese:
+
 '''
 
 [translate-to-korean]
@@ -211,6 +236,7 @@ name = "Translate to Korean"
 description = "Translate text to Korean"
 prompt = '''
 Translate text to Korean:
+
 '''
 
 [translate-to-portuguese]
@@ -218,6 +244,7 @@ name = "Translate to Portuguese"
 description = "Translate text to Portuguese"
 prompt = '''
 Translate text to Portuguese:
+
 '''
 
 [translate-to-russian]
@@ -225,6 +252,7 @@ name = "Translate to Russian"
 description = "Translate text to Russian"
 prompt = '''
 Translate text to Russian:
+
 '''
 
 [translate-to-arabic]
@@ -232,6 +260,7 @@ name = "Translate to Arabic"
 description = "Translate text to Arabic"
 prompt = '''
 Translate text to Arabic:
+
 '''
 
 [translate-to-hindi]
@@ -239,4 +268,5 @@ name = "Translate to Hindi"
 description = "Translate text to Hindi"
 prompt = '''
 Translate text to Hindi:
+
 '''
