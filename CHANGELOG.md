@@ -1,3 +1,10 @@
+# [1.6.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.5.0...v1.6.0) (2023-01-13)
+
+
+### Features
+
+* **shortcut:** add keyboard shortcut for gpt-block ([#67](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/67)) ([4a6a03b](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/4a6a03ba38d97a3e994c5ee8e6a2b9a532d81cd4))
+
 # [1.5.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.4.0...v1.5.0) (2022-12-15)
 
 
