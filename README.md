@@ -23,7 +23,7 @@
 
 ## Demo
 
-[logseq gpt3 openai demo](docs/summarize.gif)
+![logseq gpt3 openai demo](docs/summarize.gif)
 
 # Usage
 
