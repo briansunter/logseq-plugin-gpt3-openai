@@ -23,7 +23,7 @@
 
 ## Demo
 
-![logseq gpt3 openai demo](docs/summarize.gif)
+[logseq gpt3 openai demo](docs/summarize.gif)
 
 # Usage
 
@@ -96,7 +96,9 @@ Type `/gpt-block` in a block or select `gpt-block` from the block menu.
 `gpt-block` will send the block to OpenAI's GPT-3 API and append the response underneath the block.
 
 ![logseq gpt-block](docs/gpt-block.gif)
+#### Summarizing or explaining a block of text
 
+![](docs/demo.gif)
 ### `gpt-page`
 
 Type `/gpt-page` in a block or select `gpt-page` from the block menu.
