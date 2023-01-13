@@ -43,20 +43,25 @@ If you don't like the response, you can click the `Regenerate` button to generat
 ### Custom prompts
 After you open the popup, you can write any text you want to use as the prompt.
 
-For example you can write `explain this to a 5 year old` and the plugin will generate a response that is easier to understand.
-![logseq gpt3 openai demo](docs/custom-prompt.gif)
+For example you can write `create flashcards based on the following text:` and the plugin will generate flashcards for you to study:
+![](docs/custom-prompt.gif)
 ### Built-in prompt templates
 There are a number of built in prompt templates that you can use to generate text. These are useful for generating outlines, summaries, and other tasks.
 ![](docs/built-in-prompt-templates.gif)
 
 #### Most important ideas
 ![](docs/important-ideas.gif)
+
+#### Common Objections
+![](docs/common-objections.gif)
+#### Ask questions
+![](docs/ask-questions.gif)
 ### User prompt templates
 You can also create your own custom prompt templates.
-To do this, you create a block with the `gpt-template::` property. The template will be added to the list of templates in the gpt popup. 
+To do this, you create a block with the `prompt-template::` property. The template will be added to the list of templates in the gpt popup. 
 
 
-The `gpt-template::` property is the name of the prompt template.
+The `prompt-template::` property is the name of the prompt template.
 
 In a block nested underneath the template block, create a code block in triple backticks with the language set to `prompt`. The text in the code block will be used as the prompt. Make sure the code block is in its own block indented underneath the template block.
 
@@ -70,7 +75,7 @@ For example, you can create a template like this:
 
 <pre>
 # Student Teacher Dialog
-  gpt-template:: Student Teacher Dialog
+  prompt-template:: Student Teacher Dialog
   ```prompt
     Rewrite text as a dialog between a teacher and a student:
   ```
@@ -96,7 +101,7 @@ Type `/gpt-block` in a block or select `gpt-block` from the block menu.
 `gpt-block` will send the block to OpenAI's GPT-3 API and append the response underneath the block.
 
 ![logseq gpt-block](docs/gpt-block.gif)
-#### Summarizing or explaining a block of text
+#### Ask questions
 
 ![](docs/demo.gif)
 ### `gpt-page`
