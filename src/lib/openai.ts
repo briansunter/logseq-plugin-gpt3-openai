@@ -76,7 +76,7 @@ export async function openAI(
 
   const openai = new OpenAIApi(configuration);
   try {
-    if (options.completionEngine?.startsWith("gpt-3.5")) {
+    if (engine.startsWith("gpt-3.5")) {
       const response = await backOff(
         () =>
           openai.createChatCompletion({
