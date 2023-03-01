@@ -17,7 +17,7 @@ export const settingsSchema: SettingSchemaDesc[] = [
   {
     key: "openAICompletionEngine",
     type: "string",
-    default: "text-davinci-003",
+    default: "gpt-3.5-turbo",
     title: "OpenAI Completion Engine",
     description: "See Engines in OpenAI docs.",
   },
