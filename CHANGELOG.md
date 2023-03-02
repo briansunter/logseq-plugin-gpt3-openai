@@ -1,3 +1,15 @@
+# [1.7.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.6.1...v1.7.0) (2023-03-02)
+
+
+### Bug Fixes
+
+* **pnpm:** fix pnpm lock ([#85](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/85)) ([ef25934](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/ef25934b5e5defe644633fa12f74a116e2d1c0a1))
+
+
+### Features
+
+* **model:** Add ChatGPT API Support ([#84](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/84)) ([bff969a](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/bff969a322cffe02c6f4a6ae574e103fc8cdb122))
+
 ## [1.6.1](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.6.0...v1.6.1) (2023-01-13)
 
 
