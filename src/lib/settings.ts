@@ -17,9 +17,16 @@ export const settingsSchema: SettingSchemaDesc[] = [
   {
     key: "openAICompletionEngine",
     type: "string",
-    default: "text-davinci-003",
+    default: "gpt-3.5-turbo",
     title: "OpenAI Completion Engine",
     description: "See Engines in OpenAI docs.",
+  },
+  {
+    key: "chatPrompt",
+    type: "string",
+    default: "Do not refer to yourself in your answers. Do not say as an AI language model...",
+    title: "OpenAI Chat Prompt",
+    description: "Initial message that tells ChatGPT how to answer. Only used for gpt-3.5. See https://platform.openai.com/docs/guides/chat/introduction for more info.",
   },
   {
     key: "openAITemperature",
@@ -82,6 +89,7 @@ export function getOpenaiSettings(): PluginOptions {
   const dalleImageSize = Number.parseInt(
     logseq.settings!["dalleImageSize"]
   ) as DalleImageSize;
+  const chatPrompt = logseq.settings!["chatPrompt"];
   return {
     apiKey,
     completionEngine,
@@ -89,5 +97,6 @@ export function getOpenaiSettings(): PluginOptions {
     maxTokens,
     dalleImageSize,
     injectPrefix,
+    chatPrompt,
   };
 }
