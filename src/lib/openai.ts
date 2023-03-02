@@ -1,4 +1,4 @@
-import { Configuration, CreateImageRequestSizeEnum, OpenAIApi } from "openai";
+import { ChatCompletionRequestMessage, Configuration, CreateImageRequestSizeEnum, OpenAIApi } from "openai";
 import "@logseq/libs";
 import { backOff } from "exponential-backoff";
 
@@ -9,6 +9,7 @@ export interface OpenAIOptions {
   temperature?: number;
   maxTokens?: number;
   dalleImageSize?: DalleImageSize;
+  chatPrompt?: string;
 }
 
 const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
@@ -77,10 +78,15 @@ export async function openAI(
   const openai = new OpenAIApi(configuration);
   try {
     if (engine.startsWith("gpt-3.5")) {
+      const inputMessages:ChatCompletionRequestMessage[] =  [{ role: "user", content: input }];
+      if (openAiOptions.chatPrompt && openAiOptions.chatPrompt.length > 0) {
+        inputMessages.unshift({ role: "system", content: openAiOptions.chatPrompt });
+
+      }
       const response = await backOff(
         () =>
           openai.createChatCompletion({
-            messages: [{ role: "user", content: input }],
+            messages: inputMessages,
             temperature: options.temperature,
             max_tokens: options.maxTokens,
             top_p: 1,
