@@ -156,6 +156,20 @@ prompt = '''
 Fix spelling in the following text:
 '''
 
+[csv-output]
+name = "CSV Export"
+description = "CSV file for"
+prompt = '''
+Give me in a CSV format: 
+'''
+
+
+[pros-cons]
+name = "Pros and Cons Table"
+description = "Pros and Cons Table"
+prompt = '''
+Give me Pros and Cons in a table for : 
+'''
 
 [translate-to-english]
 name = "Translate to English"
