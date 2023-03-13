@@ -168,7 +168,7 @@ Give me in a CSV format:
 name = "Pros and Cons Table"
 description = "Pros and Cons Table"
 prompt = '''
-Give me Pros and Cons in a table for : 
+Give me Pros and Cons in a table for: 
 '''
 
 [translate-to-english]
