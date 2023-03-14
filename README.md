@@ -69,24 +69,16 @@ The `prompt-template::` property is the name of the prompt template.
 
 In a block nested underneath the template block, create a code block in triple backticks with the language set to `prompt`. The text in the code block will be used as the prompt. Make sure the code block is in its own block indented underneath the template block.
 
+For example, you can create a template like this:
+
 <pre>
 - # Student Teacher Dialog
   prompt-template:: Student Teacher Dialog
-	-
-	  ``` prompt
+	- ``` prompt
 	    Rewrite text as a dialog between a teacher and a student:
 	  ```
 </pre>
 
-For example, you can create a template like this:
-
-<pre>
-# Student Teacher Dialog
-  prompt-template:: Student Teacher Dialog
-  ```prompt
-    Rewrite text as a dialog between a teacher and a student:
-  ```
-</pre>
 #### Student teacher dialog
 ![](docs/user-prompt.gif)
 
