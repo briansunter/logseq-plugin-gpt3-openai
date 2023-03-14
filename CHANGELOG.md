@@ -1,3 +1,10 @@
+# [1.8.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.7.0...v1.8.0) (2023-03-14)
+
+
+### Features
+
+* **multi-select:** add multi select feature ([#92](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/92)) ([51101dd](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/51101dd33e486071faf8e8b0031f34128dd10a6d))
+
 # [1.7.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.6.1...v1.7.0) (2023-03-02)
 
 
