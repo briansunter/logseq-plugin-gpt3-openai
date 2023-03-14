@@ -25,6 +25,8 @@
 
 ![logseq gpt3 openai demo](docs/summarize.gif)
 
+Follow me on Twitter for updates and examples of how I use this plugin: [@bsunter](https://twitter.com/bsunter)
+[![](docs/follow.png)](https://twitter.com/bsunter)
 # Usage
 
 ##  `gpt`
@@ -32,6 +34,8 @@
 To bring up the gpt popup, use the keyboard shortcut `cmd+g`, or select `gpt` from the block or slash menu.
 
 If you are currently in a block, the plugin will use the text in the block as input to the prompt.
+
+You can click and drag or shift+click to select multiple blocks to use as input to the prompt.
 
 If you are not in a block, the plugin won't add any additional input text to your prompt, and will append the results of the prompt to the bottom of the page.
 
@@ -120,7 +124,10 @@ This will generate an image using the DALL-E model, save the image to the `asset
 
 ![logseq dalle](docs/dalle.gif)
 
+#### Select Multiple Blocks
+You can click and drag or shift+click to select multiple blocks to use as input to the prompt.
 
+![multi select](docs/multi-select.gif)
 ### ChatGPT Guidance
 You can adjust the `chatPrompt` setting to adjust how ChatGPT should respond to your input. By default, the setting is set to `Do not refer to yourself in your answers. Do not say as an AI language model...` to prevent the model from including unnecessary text in the response.
 
@@ -140,22 +147,12 @@ Use the `Inject Prefix` options in the setting to set the prefix. You can add a 
 
 ![inject tag](docs/inject-quote.gif)
 
+
+
 ### OpenAI Examples
 
 [See here for example usages](https://beta.openai.com/examples).
 
-## 📝 Table of Contents
-
-- [About](#about)
-- [Examples with GIFs](#examples)
-- [Getting Started](#getting_started)
-- [Deployment](#deployment)
-- [Usage](#usage)
-- [Built Using](#built_using)
-- [TODO](../TODO.md)
-- [Contributing](../CONTRIBUTING.md)
-- [Authors](#authors)
-- [Acknowledgments](#acknowledgement)
 
 ## About <a name = "about"></a>
 

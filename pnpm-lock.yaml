@@ -19,6 +19,7 @@ specifiers:
   conventional-changelog-conventionalcommits: ^5.0.0
   exponential-backoff: ^3.1.0
   fuse.js: ^6.6.2
+  immer: ^9.0.19
   openai: ^3.2.1
   postcss: ^8.4.20
   react: ^18.2.0
@@ -27,6 +28,7 @@ specifiers:
   tailwindcss: ^3.2.4
   toml: ^3.0.0
   typescript: ^4.5.4
+  use-immer: ^0.8.1
   vite: ^4.0.4
   vite-plugin-logseq: ^1.1.2
 
@@ -37,12 +39,14 @@ dependencies:
   clsx: 1.2.1
   exponential-backoff: 3.1.0
   fuse.js: 6.6.2
+  immer: 9.0.19
   openai: 3.2.1
   postcss: 8.4.20
   react: 18.2.0
   react-dom: 18.2.0_react@18.2.0
   tailwindcss: 3.2.4
   toml: 3.0.0
+  use-immer: 0.8.1_immer@9.0.19+react@18.2.0
 
 devDependencies:
   '@ladle/react': 2.4.5_biqbaboplfbrettd7655fr4n2y
@@ -3589,6 +3593,10 @@ packages:
     engines: {node: '>= 4'}
     dev: true
 
+  /immer/9.0.19:
+    resolution: {integrity: sha512-eY+Y0qcsB4TZKwgQzLaE/lqYMlKhv5J9dyd2RhhtGhNo2njPXDqU9XPfcNfa3MIDsdtZt5KlkIsirlo4dHsWdQ==}
+    dev: false
+
   /import-fresh/3.3.0:
     resolution: {integrity: sha512-veYYhQa+D1QBKznvhUHxb8faxlrwUnxseDAbAp457E0wLNio2bOSKnjYDhMj+YiAq61xrMGhQk9iXVk5FzgQMw==}
     engines: {node: '>=6'}
@@ -5502,6 +5510,16 @@ packages:
   /url-join/4.0.1:
     resolution: {integrity: sha512-jk1+QP6ZJqyOiuEI9AEWQfju/nB2Pw466kbA0LEZljHwKeMgd9WrAEgEGxjPDD2+TNbbb37rTyhEfrCXfuKXnA==}
     dev: true
+
+  /use-immer/0.8.1_immer@9.0.19+react@18.2.0:
+    resolution: {integrity: sha512-OfTFf1pL+ICjjcLPn9+ZnaJO/Yg4MBzYZtACEe2mZ/W2A5col28PNUnwowOAaBuOogACOK/37TU17KgsIhUpOw==}
+    peerDependencies:
+      immer: '>=2.0.0'
+      react: ^16.8.0 || ^17.0.1 || ^18.0.0
+    dependencies:
+      immer: 9.0.19
+      react: 18.2.0
+    dev: false
 
   /util-deprecate/1.0.2:
     resolution: {integrity: sha512-EPD5q1uXyFxJpCrLnCc1nHnq3gOa6DZBocAIiI2TaSCA7VCJ1UJDMagCzIkXNsUYfD1daK//LTEQ8xiIbrHtcw==}

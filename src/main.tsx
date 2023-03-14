@@ -8,6 +8,7 @@ import { loadUserCommands, loadBuiltInCommands } from "./lib/prompts";
 import { getOpenaiSettings, settingsSchema } from "./lib/settings";
 import { runDalleBlock, runGptBlock, runGptPage } from "./lib/rawCommands";
 import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
+import { useImmer } from 'use-immer';
 
 logseq.useSettingsSchema(settingsSchema);
 
@@ -35,10 +36,34 @@ async function main() {
 
 logseq.ready(main).catch(console.error);
 
+type singleBlockSelected = {
+  type: "singleBlockSelected";
+  block: BlockEntity;
+};
+
+type multipleBlocksSelected = {
+  type: "multipleBlocksSelected";
+  blocks: BlockEntity[];
+};
+
+type noBlockSelected = {
+  type: "noBlockSelected";
+};
+
+type AppState = {
+  selection: (singleBlockSelected | multipleBlocksSelected | noBlockSelected);
+}
+
+const defaultAppState: AppState = {
+  selection: {
+    type: "noBlockSelected",
+  },
+};
+
 const LogseqApp = () => {
   const [builtInCommands, setBuiltInCommands] = useState<Command[]>([]);
   const [userCommands, setUserCommands] = useState<Command[]>([]);
-  const [activeBlock, setActiveBlock] = useState<BlockEntity|null>(null);
+  const [appState, updateAppState] = useImmer<AppState>(defaultAppState);
 
   const openUI = async () => {
     const reloadedUserCommands = await loadUserCommands();
@@ -76,15 +101,30 @@ const LogseqApp = () => {
         const activeText = await logseq.Editor.getEditingCursorPosition();
         const currentBlock = await logseq.Editor.getCurrentBlock();
         const currentPage = await logseq.Editor.getCurrentPage();
-
-        if (!activeText && !currentPage) {
+        const selectedBlocks = await logseq.Editor.getSelectedBlocks();
+        if (selectedBlocks && selectedBlocks.length > 0) {
+          updateAppState(draft => {
+            draft.selection = {
+              type: "multipleBlocksSelected",
+              blocks: selectedBlocks,
+            };
+          });
+        } else if (!activeText && !currentPage) {
           logseq.App.showMsg("Put cursor in block or navigate to specific page to use keyboard shortcut", "warning");
-           return;
-        }
-        if (activeText && currentBlock){
-          setActiveBlock(currentBlock);
+          return;
+        } else if (activeText && currentBlock) {
+          updateAppState(draft => {
+            draft.selection = {
+              type: "singleBlockSelected",
+              block: currentBlock,
+            };  
+          });
         } else {
-          setActiveBlock(null);
+          updateAppState(draft => {
+            draft.selection = {
+              type: "noBlockSelected",
+            };
+          });
         }
         openUI();
       }
@@ -96,7 +136,12 @@ const LogseqApp = () => {
     logseq.Editor.registerBlockContextMenuItem("gpt", async (b) => {
       const block = await logseq.Editor.getBlock(b.uuid);
       if (block) {
-        setActiveBlock(block);
+        updateAppState(draft => {
+          draft.selection = {
+            type: "singleBlockSelected",
+            block: block,
+          };
+        });
         openUI();
       }
     });
@@ -104,7 +149,12 @@ const LogseqApp = () => {
     logseq.Editor.registerSlashCommand("gpt", async (b) => {
       const block = await logseq.Editor.getBlock(b.uuid);
       if (block) {
-        setActiveBlock(block);
+        updateAppState(draft => {
+          draft.selection = {
+            type: "singleBlockSelected",
+            block: block,
+          };
+        });
         openUI();
       }
     });
@@ -127,7 +177,15 @@ const LogseqApp = () => {
   const allCommands = [...builtInCommands, ...userCommands];
 
   const handleCommand = async (command: Command): Promise<string> => {
-    const inputText = activeBlock?.content || "";
+    let inputText;
+    if (appState.selection.type === "singleBlockSelected") {
+      inputText = appState.selection.block.content;
+    } else if (appState.selection.type === "multipleBlocksSelected") {
+      inputText = appState.selection.blocks.map(b => b.content).join("\n");
+    } else {
+      inputText = "";
+    }
+
     const openAISettings = getOpenaiSettings();
     const response = await openAI(command.prompt + inputText, openAISettings);
     if (response) {
@@ -142,42 +200,61 @@ const LogseqApp = () => {
     if (getOpenaiSettings().injectPrefix) {
       result = getOpenaiSettings().injectPrefix + result;
     }
-    if (activeBlock) {
-      if (activeBlock.content.length > 0) {
-        logseq.Editor.insertBlock(activeBlock.uuid, result, {
+    if (appState.selection.type === "singleBlockSelected") {
+      if (appState.selection.block.content.length > 0) {
+        logseq.Editor.insertBlock(appState.selection.block.uuid, result, {
           sibling: false,
         });
       } else {
-        logseq.Editor.updateBlock(activeBlock.uuid, result);
+        logseq.Editor.updateBlock(appState.selection.block.uuid, result);
       }
-    } else {
+    } else if (appState.selection.type === "multipleBlocksSelected") {
+      const lastBlock = appState.selection.blocks[appState.selection.blocks.length - 1];
+      logseq.Editor.insertBlock(lastBlock.uuid, result, {
+        sibling: true,
+      });
+    } else if (appState.selection.type === "noBlockSelected"){
       const currentPage = await logseq.Editor.getCurrentPage();
       if (currentPage) {
         logseq.Editor.appendBlockInPage(currentPage.uuid, result);
       }
+    } else {
+      console.error("Unknown selection type");
     }
+
     logseq.hideMainUI({ restoreEditingCursor: true });
   };
 
   const onReplace = async (text: string) => {
     let result = text;
-    // if (getOpenaiSettings().injectPrefix) {
-    //   result = getOpenaiSettings().injectPrefix + result;
-    // }
-    if (activeBlock) {
-      logseq.Editor.updateBlock(activeBlock.uuid, result);
-    } else {
+    if (getOpenaiSettings().injectPrefix) {
+      result = getOpenaiSettings().injectPrefix + result;
+    }
+
+    if (appState.selection.type === "singleBlockSelected") {
+      logseq.Editor.updateBlock(appState.selection.block.uuid, result);
+    } else if (appState.selection.type === "multipleBlocksSelected") {
+      const firstBlock = appState.selection.blocks[0];
+      logseq.Editor.updateBlock(firstBlock.uuid, result);
+      if (appState.selection.blocks.length > 1) {
+        const remainingBlocks = appState.selection.blocks.slice(1);
+        const blocksToRemove = remainingBlocks.map(b => logseq.Editor.removeBlock(b.uuid));
+        await Promise.all(blocksToRemove);
+      }
+    } else if (appState.selection.type === "noBlockSelected"){
       const currentPage = await logseq.Editor.getCurrentPage();
       if (currentPage) {
-        logseq.Editor.appendBlockInPage(currentPage, result);
+        logseq.Editor.appendBlockInPage(currentPage.uuid, result);
       }
+    } else {
+      console.error("Unknown selection type");
     }
+
     logseq.hideMainUI({ restoreEditingCursor: true });
   };
 
   const onClose = () => {
     logseq.hideMainUI({ restoreEditingCursor: true });
-    setActiveBlock(null);
   };
 
   return (
