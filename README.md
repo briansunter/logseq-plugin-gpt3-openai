@@ -25,8 +25,8 @@
 
 ![logseq gpt3 openai demo](docs/summarize.gif)
 
-Follow me on Twitter for updates and examples of how I use this plugin: [@bsunter](https://twitter.com/bsunter)
-[![](docs/follow.png)](https://twitter.com/bsunter)
+ [![](docs/follow.png)](https://twitter.com/bsunter) Follow me on Twitter for updates and examples of how I use this plugin: [@bsunter](https://twitter.com/bsunter)
+
 # Usage
 
 ##  `gpt`
@@ -70,9 +70,12 @@ The `prompt-template::` property is the name of the prompt template.
 In a block nested underneath the template block, create a code block in triple backticks with the language set to `prompt`. The text in the code block will be used as the prompt. Make sure the code block is in its own block indented underneath the template block.
 
 <pre>
-```prompt
-Rewrite text as a dialog between a teacher and a student:
-```
+- # Student Teacher Dialog
+  prompt-template:: Student Teacher Dialog
+	-
+	  ``` prompt
+	    Rewrite text as a dialog between a teacher and a student:
+	  ```
 </pre>
 
 For example, you can create a template like this:
