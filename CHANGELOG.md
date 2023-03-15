@@ -1,3 +1,10 @@
+# [1.9.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.8.0...v1.9.0) (2023-03-15)
+
+
+### Features
+
+* **engine:** support gpt-4 ([#95](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/95)) ([49d2e36](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/49d2e36d94f6bc0a0400e583a71aadb12c1f398b))
+
 # [1.8.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.7.0...v1.8.0) (2023-03-14)
 
 
