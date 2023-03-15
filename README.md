@@ -74,7 +74,7 @@ For example, you can create a template like this:
 <pre>
 - # Student Teacher Dialog
   prompt-template:: Student Teacher Dialog
-	- ``` prompt
+	- ```prompt
 	    Rewrite text as a dialog between a teacher and a student:
 	  ```
 </pre>
