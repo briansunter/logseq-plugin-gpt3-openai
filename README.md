@@ -158,7 +158,7 @@ Write a GPT-3 command in a block, then run the open `/gpt` command via the slash
 ## Getting Started <a name = "getting_started"></a>
 
 - You need to [get an OpenAI API Key here](https://openai.com/api/) and add the key in the plugin settings.
-
+ The default model is `gpt-3.5-turbo` but you can change it to `text-davinci-003` for GPT-3 or `gpt-4` (if you have access)in the plugin settings under `openAICompletionEngine`. See the [OpenAI docs](https://platform.openai.com/docs/) for available models.
 - Make sure you [read OpenAI's usage guidelines](https://beta.openai.com/docs/usage-guidelines) and avoid generating certain types of content.
 
 - Download the plugin in the Logseq marketplace by searching for `gpt3` or `openai`.
@@ -225,6 +225,9 @@ Your free trial is over, or you've run out of tokens. You can refill your tokens
 
 OpenAI has limits on how often you can call them. If you get this error, you'll need to wait a bit before trying again. See this [article](https://help.openai.com/en/articles/5955598-is-api-usage-subject-to-any-rate-limits) for more info on the rate limits. You can call it faster if you have a paid account.
 
+#### `Model not available`
+
+You may have mistyped the model name, or need to generate a new API key, if you're upgrading to a paid account from a free account, or using a beta model that is not available to the public.
 #### `Refused to set unsafe header "User Agent"`
 
 This error doesn't cause any issues besides the error message in the console. It's a known issue with the OpenAI API. See [this issue](https://github.com/openai/openai-node/issues/6) for more details. I'm working on a PR to their library to support browser usage. Ignore this error for now.
@@ -282,7 +285,7 @@ Open LogSeq
 
 Go to Settings > Turn on Developer Mode
 
-This will bring up the "Plugins" entry in three dots more menu list on the top right of the head bar. Go to Plugins page, and you will get a button with the `Load unpacked plugin label`. Select the root folder of this plugin repo.
+This will bring up the "Plugins" entry in three dots more menu list on the top right of the header bar. Go to Plugins page, and you will get a button with the `Load unpacked plugin label`. Select the root folder of this plugin repo.
 
 Make sure you add your [OpenAI Key](https://beta.openai.com/account/api-keys)
 
