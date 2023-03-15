@@ -77,7 +77,7 @@ export async function openAI(
 
   const openai = new OpenAIApi(configuration);
   try {
-    if (engine.startsWith("gpt-3.5")) {
+    if (engine.startsWith("gpt-3.5") || engine.startsWith("gpt-4")) {
       const inputMessages:ChatCompletionRequestMessage[] =  [{ role: "user", content: input }];
       if (openAiOptions.chatPrompt && openAiOptions.chatPrompt.length > 0) {
         inputMessages.unshift({ role: "system", content: openAiOptions.chatPrompt });
