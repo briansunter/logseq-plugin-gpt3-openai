@@ -66,10 +66,10 @@ export async function saveDalleImage(imageURL: string): Promise<string> {
 }
 
 export async function getAudioFile(content: string): Promise<File | null> {
-  //extract file path in () from markdown link like ![my file](assets/2023-03-17-13-24-36.m4a)
   //supported formats are mp3, mp4, mpeg, mpga, m4a, wav, and webm
+  //extract file path in () from markdown link like ![my file](assets/2023-03-17-13-24-36.m4a)
+  const regex = /!\[.*\]\((.*(mp3|mp4|mpeg|mpga|m4a|wav|webm))\)/;
   const path = (await logseq.App.getCurrentGraph())?.path;
-  const regex = /\(([^)]+)\)/;
   const match = regex.exec(content);
   if (!match || !match[1]) {
     return null;
