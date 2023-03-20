@@ -23,6 +23,12 @@ const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
 const retryOptions = {
   numOfAttempts: 3,
   retry: (err: any) => {
+    if (err instanceof TypeError && err.message === 'Failed to fetch') {
+      // Handle the TypeError: Failed to fetch error
+      console.warn('retrying due to network error', err);
+      return true;
+    }
+
     if (!err.response || !err.response.data || !err.response.data.error) {
       return false;
     }
@@ -44,24 +50,32 @@ const retryOptions = {
 
 export async function whisper(file: File,openAiOptions:OpenAIOptions): Promise<string> {
     const apiKey = openAiOptions.apiKey;
-    class CustomFormData extends FormData {
-      getHeaders() {
-          return { 'Content-Type': 'multipart/form-data' }
-      }
-  }
-    const configuration = new Configuration({
-      apiKey: apiKey,
-      formDataCtor: CustomFormData
-    });
-    const openai = new OpenAIApi(configuration);
-    const base64 = await blobToBase64(file);
+    const model = 'whisper-1';
+  
+    // Create a FormData object and append the file
+    const formData = new FormData();
+    formData.append('model', model);
+    formData.append('file', file);
+  
+    // Send a request to the OpenAI API using a form post
     const response = await backOff(
-      () => openai.createTranscription(file, 'whisper-1')
-        ,
-      retryOptions
-    );
 
-    return response.data.text;
+    () => fetch('https://api.openai.com/v1/audio/transcriptions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: formData,
+    }), retryOptions);
+  
+    // Check if the response status is OK
+    if (!response.ok) {
+      throw new Error(`Error transcribing audio: ${response.statusText}`);
+    }
+  
+    // Parse the response JSON and extract the transcription
+    const jsonResponse = await response.json();
+    return jsonResponse.text;
   }
   
   // Helper function to convert a Blob to base64

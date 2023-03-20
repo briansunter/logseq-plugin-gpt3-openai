@@ -60,7 +60,7 @@ const defaultAppState: AppState = {
     type: "noBlockSelected",
   },
 };
-// loadAudioFile("![2023-03-17-13-24-36.aac]()")
+
 const LogseqApp = () => {
 
   const [builtInCommands, setBuiltInCommands] = useState<Command[]>([]);
