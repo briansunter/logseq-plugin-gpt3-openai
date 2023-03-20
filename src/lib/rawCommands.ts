@@ -1,6 +1,6 @@
 import { IHookEvent } from "@logseq/libs/dist/LSPlugin.user";
-import { getPageContentFromBlock, saveDalleImage } from "./logseq";
-import { OpenAIOptions, openAI, dallE } from "./openai";
+import { getAudioFile, getPageContentFromBlock, saveDalleImage } from "./logseq";
+import { OpenAIOptions, openAI, dallE, whisper } from "./openai";
 import { getOpenaiSettings } from "./settings";
 
 function handleOpenAIError(e: any) {
@@ -163,5 +163,25 @@ export async function runDalleBlock(b: IHookEvent) {
     });
   } catch (e: any) {
     handleOpenAIError(e);
+  }
+}
+
+export async function runWhisper(b: IHookEvent) {
+  const currentBlock = await logseq.Editor.getBlock(b.uuid);
+  if (currentBlock) {
+    const audioFile = await getAudioFile(currentBlock.content);
+    if (!audioFile) {
+      logseq.App.showMsg("No supported audio file found in block.", "warning");
+      return;
+    }
+    const openAISettings = getOpenaiSettings();
+    try {
+      const transcribe = await whisper(audioFile, openAISettings);
+      if (transcribe) {
+        await logseq.Editor.insertBlock(currentBlock.uuid, transcribe);
+      }
+    } catch (e: any) {
+      handleOpenAIError(e);
+    }
   }
 }

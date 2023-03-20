@@ -21,7 +21,7 @@ const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
 });
 
 const retryOptions = {
-  numOfAttempts: 3,
+  numOfAttempts: 7,
   retry: (err: any) => {
     if (err instanceof TypeError && err.message === 'Failed to fetch') {
       // Handle the TypeError: Failed to fetch error
@@ -77,17 +77,6 @@ export async function whisper(file: File,openAiOptions:OpenAIOptions): Promise<s
     const jsonResponse = await response.json();
     return jsonResponse.text;
   }
-  
-  // Helper function to convert a Blob to base64
-  function blobToBase64(blob: Blob): Promise<string> {
-    return new Promise((resolve, reject) => {
-      const reader = new FileReader();
-      reader.onload = () => resolve((reader.result as string).split(',')[1]);
-      reader.onerror = (error) => reject(error);
-      reader.readAsDataURL(blob);
-    });
-  }
-  
   
 export async function dallE(
   prompt: string,
