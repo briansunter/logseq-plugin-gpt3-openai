@@ -21,8 +21,14 @@ const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
 });
 
 const retryOptions = {
-  numOfAttempts: 3,
+  numOfAttempts: 7,
   retry: (err: any) => {
+    if (err instanceof TypeError && err.message === 'Failed to fetch') {
+      // Handle the TypeError: Failed to fetch error
+      console.warn('retrying due to network error', err);
+      return true;
+    }
+
     if (!err.response || !err.response.data || !err.response.data.error) {
       return false;
     }
@@ -34,10 +40,44 @@ const retryOptions = {
       console.warn("Rate limit exceeded. Retrying...");
       return true;
     }
+    if (err.response.status >= 500){
+      return true;
+    }
+
     return false;
   },
 };
 
+export async function whisper(file: File,openAiOptions:OpenAIOptions): Promise<string> {
+    const apiKey = openAiOptions.apiKey;
+    const model = 'whisper-1';
+  
+    // Create a FormData object and append the file
+    const formData = new FormData();
+    formData.append('model', model);
+    formData.append('file', file);
+  
+    // Send a request to the OpenAI API using a form post
+    const response = await backOff(
+
+    () => fetch('https://api.openai.com/v1/audio/transcriptions', {
+      method: 'POST',
+      headers: {
+        'Authorization': `Bearer ${apiKey}`,
+      },
+      body: formData,
+    }), retryOptions);
+  
+    // Check if the response status is OK
+    if (!response.ok) {
+      throw new Error(`Error transcribing audio: ${response.statusText}`);
+    }
+  
+    // Parse the response JSON and extract the transcription
+    const jsonResponse = await response.json();
+    return jsonResponse.text;
+  }
+  
 export async function dallE(
   prompt: string,
   openAiOptions: OpenAIOptions

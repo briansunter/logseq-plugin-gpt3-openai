@@ -111,7 +111,20 @@ Type `/gpt-page` in a block or select `gpt-page` from the block menu.
 
 ![logseq gpt-page](docs/gpt-page.gif)
 
+#### Whisper speech to text transcription
+
+Transcribe audio files to text using the Whisper API.
+
+Type `/whisper` in a block or select `whisper` from the block menu.
+
+Supported formats are:
+```m4a, mp3, mp4, mpeg, mpga, wav, webm```
+
+Note, that the Logseq mobile app audio recorder uses `.aac` which is not supported by Whisper. I recommend using a separate audio recorder app to record audio files and then uploading them to Logseq. For example, I use the Voice Memos app on iOS and share that file to the Logseq mobile app.
+
 ### `dalle`
+
+Generate images with DALL-E
 
 Type `/dalle` in a block or select `dalle` from the block menu.
 
