@@ -1,3 +1,10 @@
+# [1.10.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.9.0...v1.10.0) (2023-03-20)
+
+
+### Features
+
+* **whisper:** Whisper speech to text ([#100](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/100)) ([563b3b4](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/563b3b47ea01f01ce0c771cb59ac0007f56e81b3))
+
 # [1.9.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.8.0...v1.9.0) (2023-03-15)
 
 
