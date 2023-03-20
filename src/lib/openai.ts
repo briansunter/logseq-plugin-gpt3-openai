@@ -34,10 +34,47 @@ const retryOptions = {
       console.warn("Rate limit exceeded. Retrying...");
       return true;
     }
+    if (err.response.status >= 500){
+      return true;
+    }
+
     return false;
   },
 };
 
+export async function whisper(file: File,openAiOptions:OpenAIOptions): Promise<string> {
+    const apiKey = openAiOptions.apiKey;
+    class CustomFormData extends FormData {
+      getHeaders() {
+          return { 'Content-Type': 'multipart/form-data' }
+      }
+  }
+    const configuration = new Configuration({
+      apiKey: apiKey,
+      formDataCtor: CustomFormData
+    });
+    const openai = new OpenAIApi(configuration);
+    const base64 = await blobToBase64(file);
+    const response = await backOff(
+      () => openai.createTranscription(file, 'whisper-1')
+        ,
+      retryOptions
+    );
+
+    return response.data.text;
+  }
+  
+  // Helper function to convert a Blob to base64
+  function blobToBase64(blob: Blob): Promise<string> {
+    return new Promise((resolve, reject) => {
+      const reader = new FileReader();
+      reader.onload = () => resolve((reader.result as string).split(',')[1]);
+      reader.onerror = (error) => reject(error);
+      reader.readAsDataURL(blob);
+    });
+  }
+  
+  
 export async function dallE(
   prompt: string,
   openAiOptions: OpenAIOptions

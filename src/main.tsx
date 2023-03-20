@@ -1,6 +1,6 @@
 import "./ui/style.css";
 import "@logseq/libs";
-import { openAI } from "./lib/openai";
+import { openAI, whisper } from "./lib/openai";
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { Command, LogseqAI } from "./ui/LogseqAI";
@@ -9,6 +9,7 @@ import { getOpenaiSettings, settingsSchema } from "./lib/settings";
 import { runDalleBlock, runGptBlock, runGptPage } from "./lib/rawCommands";
 import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
 import { useImmer } from 'use-immer';
+import { getAudioFile } from "./lib/logseq";
 
 logseq.useSettingsSchema(settingsSchema);
 
@@ -59,8 +60,9 @@ const defaultAppState: AppState = {
     type: "noBlockSelected",
   },
 };
-
+// loadAudioFile("![2023-03-17-13-24-36.aac]()")
 const LogseqApp = () => {
+
   const [builtInCommands, setBuiltInCommands] = useState<Command[]>([]);
   const [userCommands, setUserCommands] = useState<Command[]>([]);
   const [appState, updateAppState] = useImmer<AppState>(defaultAppState);
@@ -158,6 +160,7 @@ const LogseqApp = () => {
         openUI();
       }
     });
+    logseq.Editor.registerSlashCommand("whisper", runWhisper);
 
     logseq.Editor.registerSlashCommand("gpt-page", runGptPage);
     logseq.Editor.registerBlockContextMenuItem("gpt-page", runGptPage);
@@ -173,6 +176,19 @@ const LogseqApp = () => {
       );
     }
   }, []);
+  async function runWhisper() {
+    const currentBlock = await logseq.Editor.getCurrentBlock();
+    if (currentBlock) {
+      const audioFile = await getAudioFile(currentBlock.content);
+      if (audioFile) {
+        const openAISettings = getOpenaiSettings();
+        const transcribe = await whisper(audioFile, openAISettings);
+        if (transcribe) {
+          await logseq.Editor.insertBlock(currentBlock.uuid, transcribe);
+        }
+      }
+  }
+}
 
   const allCommands = [...builtInCommands, ...userCommands];
 
