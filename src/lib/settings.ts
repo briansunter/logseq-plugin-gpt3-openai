@@ -34,7 +34,8 @@ export const settingsSchema: SettingSchemaDesc[] = [
     default: 1.0,
     title: "OpenAI Temperature",
     description:
-      "The temperature controls how much randomness is in the output.",
+      "The temperature controls how much randomness is in the output.<br/>"+
+      "You can set a different temperature in your own prompt templates by adding a 'prompt-template' property to the block.",
   },
   {
     key: "openAIMaxTokens",

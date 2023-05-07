@@ -13,6 +13,7 @@ export interface Command {
   type: string;
   name: string;
   prompt: string;
+  temperature?: number;
   shortcut?: string;
 }
 
