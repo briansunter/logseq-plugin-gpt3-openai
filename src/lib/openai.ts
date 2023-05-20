@@ -51,6 +51,7 @@ const retryOptions = {
 
 export async function whisper(file: File,openAiOptions:OpenAIOptions): Promise<string> {
     const apiKey = openAiOptions.apiKey;
+    const baseUrl = openAiOptions.baseUrl ? 'https://api.openai.com/v1' : openAiOptions.baseUrl
     const model = 'whisper-1';
   
     // Create a FormData object and append the file
@@ -61,7 +62,7 @@ export async function whisper(file: File,openAiOptions:OpenAIOptions): Promise<s
     // Send a request to the OpenAI API using a form post
     const response = await backOff(
 
-    () => fetch('https://api.openai.com/v1/audio/transcriptions', {
+    () => fetch(baseUrl + '/audio/transcriptions', {
       method: 'POST',
       headers: {
         'Authorization': `Bearer ${apiKey}`,
@@ -89,7 +90,7 @@ export async function dallE(
     apiKey: options.apiKey,
   });
 
-  const openai = new OpenAIApi(configuration);
+  const openai = new OpenAIApi(configuration, options.baseUrl);
   const imageSizeRequest: CreateImageRequestSizeEnum =
     `${options.dalleImageSize}x${options.dalleImageSize}` as CreateImageRequestSizeEnum;
 
@@ -116,7 +117,7 @@ export async function openAI(
     apiKey: options.apiKey,
   });
 
-  const openai = new OpenAIApi(configuration);
+  const openai = new OpenAIApi(configuration, options.baseUrl);
   try {
     if (engine.startsWith("gpt-3.5") || engine.startsWith("gpt-4")) {
       const inputMessages:ChatCompletionRequestMessage[] =  [{ role: "user", content: input }];
