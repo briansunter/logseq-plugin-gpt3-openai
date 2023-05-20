@@ -5,6 +5,7 @@ import { backOff } from "exponential-backoff";
 export type DalleImageSize = 256 | 512 | 1024;
 export interface OpenAIOptions {
   apiKey: string;
+  baseUrl?: string;
   completionEngine?: string;
   temperature?: number;
   maxTokens?: number;
