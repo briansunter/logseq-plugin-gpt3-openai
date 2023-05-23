@@ -1,6 +1,6 @@
 import "./ui/style.css";
 import "@logseq/libs";
-import { openAI } from "./lib/openai";
+import { openAIWithStream } from "./lib/openai";
 import React, { useState } from "react";
 import ReactDOM from "react-dom/client";
 import { Command, LogseqAI } from "./ui/LogseqAI";
@@ -179,7 +179,7 @@ const LogseqApp = () => {
 
   const allCommands = [...builtInCommands, ...userCommands];
 
-  const handleCommand = async (command: Command): Promise<string> => {
+  const handleCommand = async (command: Command, onContent: (content: string) => void): Promise<string> => {
     let inputText;
     if (appState.selection.type === "singleBlockSelected") {
       inputText = appState.selection.block.content;
@@ -190,7 +190,8 @@ const LogseqApp = () => {
     }
 
     const openAISettings = getOpenaiSettings();
-    const response = await openAI(command.prompt + inputText, openAISettings);
+    const response = await openAIWithStream(command.prompt + inputText, openAISettings, onContent, () => {
+    });
     if (response) {
       return response;
     } else {
