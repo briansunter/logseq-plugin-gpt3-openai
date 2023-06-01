@@ -1,19 +1,8 @@
-import {
-  ChatCompletionRequestMessage,
-  Configuration,
-  CreateChatCompletionResponse,
-  CreateImageRequestSizeEnum,
-  OpenAIApi
-} from "openai";
-
-// import "@logseq/libs";
+import { ChatCompletionRequestMessage, Configuration, CreateImageRequestSizeEnum, OpenAIApi } from "openai";
+import "@logseq/libs";
 import { backOff } from "exponential-backoff";
-// import axios from "axios";
-// import fetch from "typescript";
-// import fetch from "fetch-cross";
 
 export type DalleImageSize = 256 | 512 | 1024;
-
 export interface OpenAIOptions {
   apiKey: string;
   baseUrl?: string;
@@ -22,6 +11,7 @@ export interface OpenAIOptions {
   maxTokens?: number;
   dalleImageSize?: DalleImageSize;
   chatPrompt?: string;
+  completionEndpoint?: string;
 }
 
 const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
@@ -29,15 +19,15 @@ const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
   completionEngine: "gpt-3.5-turbo",
   temperature: 1.0,
   maxTokens: 1000,
-  dalleImageSize: 1024
+  dalleImageSize: 1024,
 });
 
 const retryOptions = {
   numOfAttempts: 7,
   retry: (err: any) => {
-    if (err instanceof TypeError && err.message === "Failed to fetch") {
+    if (err instanceof TypeError && err.message === 'Failed to fetch') {
       // Handle the TypeError: Failed to fetch error
-      console.warn("retrying due to network error", err);
+      console.warn('retrying due to network error', err);
       return true;
     }
 
@@ -52,43 +42,44 @@ const retryOptions = {
       console.warn("Rate limit exceeded. Retrying...");
       return true;
     }
-    if (err.response.status >= 500) {
+    if (err.response.status >= 500){
       return true;
     }
 
     return false;
-  }
+  },
 };
 
-export async function whisper(file: File, openAiOptions: OpenAIOptions): Promise<string> {
-  const apiKey = openAiOptions.apiKey;
-  const baseUrl = openAiOptions.baseUrl ? "https://api.openai.com/v1" : openAiOptions.baseUrl;
-  const model = "whisper-1";
+export async function whisper(file: File,openAiOptions:OpenAIOptions): Promise<string> {
+    const apiKey = openAiOptions.apiKey;
+    const baseUrl = openAiOptions.baseUrl ? "https://api.openai.com/v1" : openAiOptions.baseUrl;
+    const model = 'whisper-1';
+  
+    // Create a FormData object and append the file
+    const formData = new FormData();
+    formData.append('model', model);
+    formData.append('file', file);
+  
+    // Send a request to the OpenAI API using a form post
+    const response = await backOff(
 
-  // Create a FormData object and append the file
-  const formData = new FormData();
-  formData.append("model", model);
-  formData.append("file", file);
-
-  // Send a request to the OpenAI API using a form post
-  const response = await backOff(
-    () => fetch(baseUrl + "/audio/transcriptions", {
-      method: "POST",
+    () => fetch(baseUrl + '/audio/transcriptions', {
+      method: 'POST',
       headers: {
-        "Authorization": `Bearer ${apiKey}`
+        'Authorization': `Bearer ${apiKey}`,
       },
-      body: formData
+      body: formData,
     }), retryOptions);
 
-  // Check if the response status is OK
-  if (!response.ok) {
-    throw new Error(`Error transcribing audio: ${response.statusText}`);
-  }
+    // Check if the response status is OK
+    if (!response.ok) {
+      throw new Error(`Error transcribing audio: ${response.statusText}`);
+    }
 
-  // Parse the response JSON and extract the transcription
-  const jsonResponse = await response.json() as any;
-  return jsonResponse.text;
-}
+    // Parse the response JSON and extract the transcription
+    const jsonResponse = await response.json();
+    return jsonResponse.text;
+  }
 
 export async function dallE(
   prompt: string,
@@ -97,7 +88,7 @@ export async function dallE(
   const options = { ...OpenAIDefaults(openAiOptions.apiKey), ...openAiOptions };
 
   const configuration = new Configuration({
-    apiKey: options.apiKey
+    apiKey: options.apiKey,
   });
 
   const openai = new OpenAIApi(configuration, options.baseUrl);
@@ -109,7 +100,7 @@ export async function dallE(
       openai.createImage({
         prompt,
         n: 1,
-        size: imageSizeRequest
+        size: imageSizeRequest,
       }),
     retryOptions
   );
@@ -124,29 +115,29 @@ export async function openAI(
   const engine = options.completionEngine!;
 
   const configuration = new Configuration({
-    apiKey: options.apiKey
+    basePath: options.completionEndpoint,
+    apiKey: options.apiKey,
   });
 
   const openai = new OpenAIApi(configuration, options.baseUrl);
   try {
     if (engine.startsWith("gpt-3.5") || engine.startsWith("gpt-4")) {
-      const inputMessages: ChatCompletionRequestMessage[] = [{ role: "user", content: input }];
+      const inputMessages:ChatCompletionRequestMessage[] =  [{ role: "user", content: input }];
       if (openAiOptions.chatPrompt && openAiOptions.chatPrompt.length > 0) {
         inputMessages.unshift({ role: "system", content: openAiOptions.chatPrompt });
 
       }
       const response = await backOff(
         () =>
-           openai.createChatCompletion({
+          openai.createChatCompletion({
             messages: inputMessages,
             temperature: options.temperature,
             max_tokens: options.maxTokens,
             top_p: 1,
             frequency_penalty: 0,
             presence_penalty: 0,
-            model: engine
-          })
-        ,
+            model: engine,
+          }),
         retryOptions
       );
       const choices = response.data.choices;
@@ -163,15 +154,15 @@ export async function openAI(
       }
     } else {
       const response = await backOff(() =>
-          openai.createCompletion({
-            prompt: input,
-            temperature: options.temperature,
-            max_tokens: options.maxTokens,
-            top_p: 1,
-            frequency_penalty: 0,
-            presence_penalty: 0,
-            model: engine
-          }),
+        openai.createCompletion({
+          prompt: input,
+          temperature: options.temperature,
+          max_tokens: options.maxTokens,
+          top_p: 1,
+          frequency_penalty: 0,
+          presence_penalty: 0,
+          model: engine,
+        }),
         retryOptions
       );
       const choices = response.data.choices;
@@ -292,94 +283,6 @@ export async function openAIWithStream(
     }
   }
 }
-
-// export async function openAIWithStream(
-//   input: string,
-//   openAiOptions: OpenAIOptions,
-//   onContent: (content: string) => void,
-//   onStop: () => void
-// ): Promise<string | null> {
-//   const options = { ...OpenAIDefaults(openAiOptions.apiKey), ...openAiOptions };
-//   const engine = options.completionEngine!;
-//
-//   try {
-//     const inputMessages: ChatCompletionRequestMessage[] = [{ role: "user", content: input }];
-//     if (openAiOptions.chatPrompt && openAiOptions.chatPrompt.length > 0) {
-//       inputMessages.unshift({ role: "system", content: openAiOptions.chatPrompt });
-//     }
-//     const response = await backOff(
-//       () =>
-//         new Promise((resolve, reject) => {
-//           axios.post(`${options.baseUrl}/chat/completions`, {
-//             messages: inputMessages,
-//             temperature: options.temperature,
-//             max_tokens: options.maxTokens,
-//             top_p: 1,
-//             frequency_penalty: 0,
-//             presence_penalty: 0,
-//             model: engine,
-//             stream: true
-//           }, {
-//             responseType: 'stream',
-//             headers: { Authorization: `Bearer ${options.apiKey}`,
-//               "Content-Type": "application/json",
-//               "Accept": "text/event-stream"
-//             }
-//           }).then((response) => {
-//             let result = "";
-//             response.data.on("data", (data: any) => {
-//               let content = data.toString();
-//               // console.log(content);
-//               let isDone = false;
-//               if (content.includes("data:")) {
-//                 content += content.split("data:").map((s: string) => {
-//                   if (s.includes("[DONE]")) {
-//                     isDone = true;
-//                     return "";
-//                   } else if (s.trim().length == 0) {
-//                     return "";
-//                   } else {
-//                     console.log("s:" + s);
-//                     return JSON.parse(s)?.choices[0]?.delta?.content || "";
-//                   }
-//                 }).join("");
-//               }
-//
-//               result += content;
-//               onContent(content);
-//               if (isDone) {
-//                 resolve({ choices: [{ message: { content: result } }] } as unknown as CreateChatCompletionResponse);
-//                 onStop();
-//                 return;
-//               }
-//             });
-//           }).catch((e) => {
-//             reject(e);
-//           });
-//         }),
-//       retryOptions
-//     );
-//     const choices = (response as CreateChatCompletionResponse)?.choices;
-//     if (
-//       choices &&
-//       choices[0] &&
-//       choices[0].message &&
-//       choices[0].message.content &&
-//       choices[0].message.content.length > 0
-//     ) {
-//       return trimLeadingWhitespace(choices[0].message.content);
-//     } else {
-//       return null;
-//     }
-//   } catch (e: any) {
-//     if (e?.response?.data?.error) {
-//       console.error(e?.response?.data?.error);
-//       throw new Error(e?.response?.data?.error?.message);
-//     } else {
-//       throw e;
-//     }
-//   }
-// }
 
 function trimLeadingWhitespace(s: string): string {
   return s.replace(/^\s+/, "");
