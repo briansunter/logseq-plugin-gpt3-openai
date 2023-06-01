@@ -2,7 +2,7 @@
   "name": "logseq-plugin-gpt3-openai",
   "author": "Brian Sunter",
   "private": true,
-  "version": "1.10.0",
+  "version": "1.11.0",
   "main": "dist/index.html",
   "scripts": {
     "dev": "vite",

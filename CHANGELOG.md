@@ -1,3 +1,10 @@
+# [1.11.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.10.0...v1.11.0) (2023-06-01)
+
+
+### Features
+
+* **settings:** make openai /v1/chat/completion endpoint(basepath) configurable. ([#110](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/110)) ([b284838](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/b284838d1a56d590de11bc05f649dfb55770ded6))
+
 # [1.10.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.9.0...v1.10.0) (2023-03-20)
 
 
