@@ -15,14 +15,6 @@ export const settingsSchema: SettingSchemaDesc[] = [
       "Your OpenAI API key. You can get one at https://beta.openai.com",
   },
   {
-    key: "baseUrl",
-    type: "string",
-    default: "",
-    title: "Base Url of OpenAI",
-    description:
-      "BaseUrl of OpenAI",
-  },
-  {
     key: "openAICompletionEngine",
     type: "string",
     default: "gpt-3.5-turbo",
@@ -98,7 +90,6 @@ function unescapeNewlines(s: string) {
 
 export function getOpenaiSettings(): PluginOptions {
   const apiKey = logseq.settings!["openAIKey"];
-  const baseUrl = logseq.settings!["baseUrl"];
   const completionEngine = logseq.settings!["openAICompletionEngine"];
   const injectPrefix = unescapeNewlines(logseq.settings!["injectPrefix"]);
   const temperature = Number.parseFloat(logseq.settings!["openAITemperature"]);
@@ -110,7 +101,6 @@ export function getOpenaiSettings(): PluginOptions {
   const completionEndpoint = logseq.settings!["chatCompletionEndpoint"];
   return {
     apiKey,
-    baseUrl,
     completionEngine,
     temperature,
     maxTokens,
