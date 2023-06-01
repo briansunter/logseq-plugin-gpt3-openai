@@ -22,6 +22,13 @@ export const settingsSchema: SettingSchemaDesc[] = [
     description: "See Engines in OpenAI docs.",
   },
   {
+    key: "chatCompletionEndpoint",
+    type: "string",
+    default: "http://api.openai.com/v1/",
+    title: "OpenAI API Completion Endpoint",
+    description: "The endpoint to use for OpenAI API completion requests. You shouldn't need to change this."
+  },
+  {
     key: "chatPrompt",
     type: "string",
     default: "Do not refer to yourself in your answers. Do not say as an AI language model...",
@@ -90,6 +97,7 @@ export function getOpenaiSettings(): PluginOptions {
     logseq.settings!["dalleImageSize"]
   ) as DalleImageSize;
   const chatPrompt = logseq.settings!["chatPrompt"];
+  const completionEndpoint = logseq.settings!["chatCompletionEndpoint"];
   return {
     apiKey,
     completionEngine,
@@ -98,5 +106,6 @@ export function getOpenaiSettings(): PluginOptions {
     dalleImageSize,
     injectPrefix,
     chatPrompt,
+    completionEndpoint,
   };
 }

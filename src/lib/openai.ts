@@ -10,6 +10,7 @@ export interface OpenAIOptions {
   maxTokens?: number;
   dalleImageSize?: DalleImageSize;
   chatPrompt?: string;
+  completionEndpoint?: string;
 }
 
 const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
@@ -51,12 +52,12 @@ const retryOptions = {
 export async function whisper(file: File,openAiOptions:OpenAIOptions): Promise<string> {
     const apiKey = openAiOptions.apiKey;
     const model = 'whisper-1';
-  
+
     // Create a FormData object and append the file
     const formData = new FormData();
     formData.append('model', model);
     formData.append('file', file);
-  
+
     // Send a request to the OpenAI API using a form post
     const response = await backOff(
 
@@ -67,17 +68,17 @@ export async function whisper(file: File,openAiOptions:OpenAIOptions): Promise<s
       },
       body: formData,
     }), retryOptions);
-  
+
     // Check if the response status is OK
     if (!response.ok) {
       throw new Error(`Error transcribing audio: ${response.statusText}`);
     }
-  
+
     // Parse the response JSON and extract the transcription
     const jsonResponse = await response.json();
     return jsonResponse.text;
   }
-  
+
 export async function dallE(
   prompt: string,
   openAiOptions: OpenAIOptions
@@ -112,6 +113,7 @@ export async function openAI(
   const engine = options.completionEngine!;
 
   const configuration = new Configuration({
+    basePath: options.completionEndpoint,
     apiKey: options.apiKey,
   });
 
