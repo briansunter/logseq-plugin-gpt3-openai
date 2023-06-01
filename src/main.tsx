@@ -190,6 +190,10 @@ const LogseqApp = () => {
     }
 
     const openAISettings = getOpenaiSettings();
+    // Set temperature of command instead of global temperature
+    if (command.temperature!=null && !Number.isNaN(command.temperature)) {
+      openAISettings.temperature = command.temperature;
+    }
     const response = await openAI(command.prompt + inputText, openAISettings);
     if (response) {
       return response;

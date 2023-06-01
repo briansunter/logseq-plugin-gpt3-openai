@@ -52,6 +52,7 @@ export async function loadUserCommands() {
       customCommands.push({
         type: type,
         name: type,
+        temperature: Number(result[0].properties["prompt-temperature"]),
         prompt: prompt,
       });
     }
@@ -62,6 +63,7 @@ export async function loadUserCommands() {
 
 interface Prompt {
   name: string;
+  temperature: number;
   description: string;
   prompt: string;
 }
@@ -74,6 +76,7 @@ function promptsToCommands(prompts: Prompts): Command[] {
       name: prompt.name,
       description: prompt.description,
       prompt: prompt.prompt,
+      temperature: prompt.temperature,
     };
   });
 }
