@@ -1,3 +1,10 @@
+# [1.12.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.11.0...v1.12.0) (2023-06-01)
+
+
+### Features
+
+* **templates:** Allow user to set the temperature for each prompt ([#111](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/111)) ([8c05660](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/8c05660a296fe4e4d3b662e7923f9617e0b73425))
+
 # [1.11.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.10.0...v1.11.0) (2023-06-01)
 
 
