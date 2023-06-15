@@ -1,3 +1,10 @@
+## [1.13.1](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.13.0...v1.13.1) (2023-06-15)
+
+
+### Bug Fixes
+
+* **token:** fix gh deploy token ([#114](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/114)) ([b3f7378](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/b3f7378dea6f319115a65f793ee21ba59fdacc50))
+
 # [1.13.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.12.0...v1.13.0) (2023-06-15)
 
 
