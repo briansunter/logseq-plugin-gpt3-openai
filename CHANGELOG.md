@@ -1,3 +1,10 @@
+# [1.13.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.12.0...v1.13.0) (2023-06-15)
+
+
+### Features
+
+* **streaming:** make baseurl configuration and add stream output ([#112](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/112)) ([2f1182c](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/2f1182c54c6cce06250c2af4b4356e803fb3ebb3))
+
 # [1.12.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.11.0...v1.12.0) (2023-06-01)
 
 
