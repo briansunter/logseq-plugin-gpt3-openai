@@ -35,7 +35,7 @@ export interface ErrorState {
 
 interface LogseqAIProps {
   commands: Command[];
-  handleCommand: (command: Command) => Promise<string>;
+  handleCommand: (command: Command, onContent: (content:string) => void) => Promise<string>;
   onInsert: (text: string) => void;
   onReplace: (text: string) => void;
   onClose: () => void;
@@ -61,8 +61,12 @@ export const LogseqAI = ({
     setQuery(command.name);
     setCommandState({ status: "loading" });
     try {
-      const result = await handleCommand(command);
-      setCommandState({ status: "success", result });
+      let result = "";
+      await handleCommand(command, (content) => {
+        result += content || "";
+        setCommandState({ status: "success", result });
+      });
+      // setCommandState({ status: "success", result });
     } catch (e) {
       if (e instanceof Error) {
         setCommandState({ status: "error", error: e });
