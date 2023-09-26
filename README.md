@@ -175,7 +175,9 @@ Write a GPT-3 command in a block, then run the open `/gpt` command via the slash
 ## Getting Started <a name = "getting_started"></a>
 
 - You need to [get an OpenAI API Key here](https://openai.com/api/) and add the key in the plugin settings.
- The default model is `gpt-3.5-turbo` but you can change it to `text-davinci-003` for GPT-3 or `gpt-4` (if you have access)in the plugin settings under `openAICompletionEngine`. See the [OpenAI docs](https://platform.openai.com/docs/) for available models.
+- After the free welcome credit expires you will need to provide a credit card to OpenAI.
+- Note that having a paid ChatGPT account is not the same as having a paid account for OpenAI's API.
+- The default model is `gpt-3.5-turbo` but you can change it to `text-davinci-003` for GPT-3 or `gpt-4` (if you have access)in the plugin settings under `openAICompletionEngine`. See the [OpenAI docs](https://platform.openai.com/docs/) for available models.
 - Make sure you [read OpenAI's usage guidelines](https://beta.openai.com/docs/usage-guidelines) and avoid generating certain types of content.
 
 - Download the plugin in the Logseq marketplace by searching for `gpt3` or `openai`.
