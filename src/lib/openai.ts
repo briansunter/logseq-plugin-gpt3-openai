@@ -57,7 +57,7 @@ const retryOptions = {
 
 export async function whisper(file: File,openAiOptions:OpenAIOptions): Promise<string> {
     const apiKey = openAiOptions.apiKey;
-    const baseUrl = openAiOptions.completionEndpoint ? "https://api.openai.com/v1" : openAiOptions.completionEndpoint;
+    const baseUrl = openAiOptions.completionEndpoint ? openAiOptions.completionEndpoint : "https://api.openai.com/v1";
     const model = 'whisper-1';
   
     // Create a FormData object and append the file
