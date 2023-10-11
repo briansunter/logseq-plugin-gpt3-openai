@@ -1,3 +1,10 @@
+## [1.13.2](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.13.1...v1.13.2) (2023-10-11)
+
+
+### Bug Fixes
+
+* **options:** whisper use custom configuration ([#127](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/127)) ([162a4a8](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/162a4a842a9b8a0efacbc90888e613f66477b1f9))
+
 ## [1.13.1](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.13.0...v1.13.1) (2023-06-15)
 
 
