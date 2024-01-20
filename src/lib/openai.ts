@@ -12,6 +12,8 @@ export type DalleImageSize = 256 | 512 | 1024;
 export interface OpenAIOptions {
   apiKey: string;
   completionEngine?: string;
+  completionCharacter?: string;
+  useChatCompletionRequestMessage?: boolean;
   temperature?: number;
   maxTokens?: number;
   dalleImageSize?: DalleImageSize;
@@ -22,6 +24,8 @@ export interface OpenAIOptions {
 const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
   apiKey,
   completionEngine: "gpt-3.5-turbo",
+  completionCharacter: "Assistant",
+  useChatCompletionRequestMessage: false,
   temperature: 1.0,
   maxTokens: 1000,
   dalleImageSize: 1024,
@@ -127,7 +131,7 @@ export async function openAI(
 
   const openai = new OpenAIApi(configuration);
   try {
-    if (engine.startsWith("gpt-3.5") || engine.startsWith("gpt-4")) {
+    if (engine.startsWith("gpt-3.5") || engine.startsWith("gpt-4") || options.useChatCompletionRequestMessage) {
       const inputMessages:ChatCompletionRequestMessage[] =  [{ role: "user", content: input }];
       if (openAiOptions.chatPrompt && openAiOptions.chatPrompt.length > 0) {
         inputMessages.unshift({ role: "system", content: openAiOptions.chatPrompt });
@@ -201,9 +205,10 @@ export async function openAIWithStream(
 ): Promise<string | null> {
   const options = { ...OpenAIDefaults(openAiOptions.apiKey), ...openAiOptions };
   const engine = options.completionEngine!;
+  const character = options.completionCharacter!;
 
   try {
-    if (engine.startsWith("gpt-3.5") || engine.startsWith("gpt-4")) {
+    if (engine.startsWith("gpt-3.5") || engine.startsWith("gpt-4") || options.useChatCompletionRequestMessage) {
       const inputMessages: ChatCompletionRequestMessage[] = [{ role: "user", content: input }];
       if (openAiOptions.chatPrompt && openAiOptions.chatPrompt.length > 0) {
         inputMessages.unshift({ role: "system", content: openAiOptions.chatPrompt });
@@ -216,7 +221,8 @@ export async function openAIWithStream(
         frequency_penalty: 0,
         presence_penalty: 0,
         model: engine,
-        stream: true
+        stream: true,
+        character: character
       }
       const response = await backOff(
         () =>
@@ -277,70 +283,70 @@ export async function openAIWithStream(
       }
     } else {
       const body = {
-        prompt: input,
-        temperature: options.temperature,
-        max_tokens: options.maxTokens,
-        top_p: 1,
-        frequency_penalty: 0,
-        presence_penalty: 0,
-        model: engine,
-        stream: true
+      prompt: input,
+      temperature: options.temperature,
+      max_tokens: options.maxTokens,
+      top_p: 1,
+      frequency_penalty: 0,
+      presence_penalty: 0,
+      model: engine,
+      stream: true
       }
       const response = await backOff(
-        () =>
-          fetch(`${options.completionEndpoint}/completions`, {
-            method: "POST",
-            body: JSON.stringify(body),
-            headers: {
-              Authorization: `Bearer ${options.apiKey}`,
-              'Content-Type': 'application/json',
-              'Accept': 'text/event-stream'
-            }
+      () =>
+      fetch(`${options.completionEndpoint}/completions`, {
+      method: "POST",
+      body: JSON.stringify(body),
+      headers: {
+      Authorization: `Bearer ${options.apiKey}`,
+      'Content-Type': 'application/json',
+      'Accept': 'text/event-stream'
+      }
           }).then((response) => {
-            if (response.ok && response.body) {
-              const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
-              let result = ""
-              const readStream = (): any =>
-                reader.read().then(({
-                                      value,
-                                      done
-                                    }) => {
-                  if (done) {
-                    reader.cancel();
-                    onStop();
-                    return Promise.resolve({ choices: [{ text: result }]});
-                  }
+      if (response.ok && response.body) {
+      const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
+      let result = ""
+      const readStream = (): any =>
+      reader.read().then(({
+      value,
+      done
+      }) => {
+      if (done) {
+      reader.cancel();
+      onStop();
+      return Promise.resolve({ choices: [{ text: result }]});
+      }
 
-                  const data = getDataFromStreamValue(value);
-                  if (!data || !data[0]) {
-                    return readStream();
-                  }
+      const data = getDataFromStreamValue(value);
+      if (!data || !data[0]) {
+      return readStream();
+      }
 
-                  let res = ""
-                  for (let i = 0; i < data.length; i++) {
-                    res += data[i].choices[0]?.text || ""
-                  }
+      let res = ""
+      for (let i = 0; i < data.length; i++) {
+      res += data[i].choices[0]?.text || ""
+      }
                   result += res
-                  onContent(res)
-                  return readStream();
-                });
-              return readStream();
-            } else {
-              return Promise.reject(response);
-            }
+      onContent(res)
+      return readStream();
+      });
+      return readStream();
+      } else {
+      return Promise.reject(response);
+      }
           }),
-        retryOptions
+      retryOptions
       );
       const choices = (response as CreateCompletionResponse)?.choices;
       if (
-        choices &&
-        choices[0] &&
-        choices[0].text &&
-        choices[0].text.length > 0
+      choices &&
+      choices[0] &&
+      choices[0].text &&
+      choices[0].text.length > 0
       ) {
-        return trimLeadingWhitespace(choices[0].text);
+      return trimLeadingWhitespace(choices[0].text);
       } else {
-        return null;
+      return null;
       }
     }
   } catch (e: any) {

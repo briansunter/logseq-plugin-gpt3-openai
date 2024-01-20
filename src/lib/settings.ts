@@ -29,6 +29,20 @@ export const settingsSchema: SettingSchemaDesc[] = [
     description: "The endpoint to use for OpenAI API completion requests. You shouldn't need to change this."
   },
   {
+    key: "useChatCompletionRequestMessage",
+    type: "boolean",
+    default: false,
+    title: "Use OpenAI Chat Completion Request Message",
+    description: "Send chat completion message using ChatCompletionRequestMessage interface rather than raw string. Useful for Oobabooga Text-Generation-WebUI. See https://github.com/oobabooga/text-generation-webui for more info.",
+  },
+  {
+    key: "chatCompletionCharacter",
+    type: "string",
+    default: "Assistant",
+    title: "Completion Character",
+    description: "Only used for Oobabooga Text-Generation-WebUI. See https://github.com/oobabooga/text-generation-webui for more info."
+  },
+  {
     key: "chatPrompt",
     type: "string",
     default: "Do not refer to yourself in your answers. Do not say as an AI language model...",
@@ -91,6 +105,8 @@ function unescapeNewlines(s: string) {
 export function getOpenaiSettings(): PluginOptions {
   const apiKey = logseq.settings!["openAIKey"];
   const completionEngine = logseq.settings!["openAICompletionEngine"];
+  const completionCharacter = logseq.settings!["chatCompletionCharacter"];
+  const useChatCompletionRequestMessage = logseq.settings!["useChatCompletionRequestMessage"];
   const injectPrefix = unescapeNewlines(logseq.settings!["injectPrefix"]);
   const temperature = Number.parseFloat(logseq.settings!["openAITemperature"]);
   const maxTokens = Number.parseInt(logseq.settings!["openAIMaxTokens"]);
@@ -102,6 +118,8 @@ export function getOpenaiSettings(): PluginOptions {
   return {
     apiKey,
     completionEngine,
+    completionCharacter,
+    useChatCompletionRequestMessage,
     temperature,
     maxTokens,
     dalleImageSize,
