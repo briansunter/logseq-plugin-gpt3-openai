@@ -61,7 +61,7 @@ export async function saveDalleImage(imageURL: string): Promise<string> {
 
   const responseArrayBuffer: any = await response.arrayBuffer();
   await s.setItem(imageName, responseArrayBuffer);
-  const imageFileName = `![](assets/storages/logseq-plugin-gpt3-openai/${imageName})`;
+  const imageFileName = `![](../assets/storages/logseq-plugin-gpt3-openai/${imageName})`;
   return imageFileName;
 }
 
