@@ -11,6 +11,7 @@ import { backOff } from "exponential-backoff";
 export type DalleImageSize = 256 | 512 | 1024;
 export interface OpenAIOptions {
   apiKey: string;
+  customHeaders: string,
   completionEngine?: string;
   temperature?: number;
   maxTokens?: number;
@@ -21,6 +22,7 @@ export interface OpenAIOptions {
 
 const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
   apiKey,
+  customHeaders: "",
   completionEngine: "gpt-3.5-turbo",
   temperature: 1.0,
   maxTokens: 1000,
@@ -57,7 +59,7 @@ const retryOptions = {
 
 export async function whisper(file: File,openAiOptions:OpenAIOptions): Promise<string> {
     const apiKey = openAiOptions.apiKey;
-    const baseUrl = openAiOptions.completionEndpoint ? openAiOptions.completionEndpoint : "https://api.openai.com/v1";
+    const baseUrl = openAiOptions.completionEndpoint ? openAiOptions.completionEndpoint : "https://api.openai.com/v1/chat/completions";
     const model = 'whisper-1';
   
     // Create a FormData object and append the file
@@ -194,6 +196,7 @@ export async function openAI(
 }
 
 export async function openAIWithStream(
+  prompt: string,
   input: string,
   openAiOptions: OpenAIOptions,
   onContent: (content: string) => void,
@@ -205,7 +208,9 @@ export async function openAIWithStream(
   try {
     if (engine.startsWith("gpt-3.5") || engine.startsWith("gpt-4")) {
       const inputMessages: ChatCompletionRequestMessage[] = [{ role: "user", content: input }];
-      if (openAiOptions.chatPrompt && openAiOptions.chatPrompt.length > 0) {
+      if(prompt) {
+        inputMessages.unshift({ role: "system", content: prompt });
+      } else if (openAiOptions.chatPrompt && openAiOptions.chatPrompt.length > 0) {
         inputMessages.unshift({ role: "system", content: openAiOptions.chatPrompt });
       }
       const body = {
@@ -219,15 +224,22 @@ export async function openAIWithStream(
         stream: true
       }
       const response = await backOff(
-        () =>
-          fetch(`${options.completionEndpoint}/chat/completions`, {
+        () => {
+          let headers: Record<string, string> = {
+            Authorization: `Bearer ${options.apiKey}`,
+            'Content-Type': 'application/json',
+            'Accept': 'text/event-stream'
+          };
+          if(options.customHeaders && options.customHeaders.length > 0) {
+            options.customHeaders.split("\n").forEach(header => {
+              const [key, value] = header.split(":");
+              headers[key.trim()] = value.trim();
+            });
+          }
+          return fetch(`${options.completionEndpoint}`, {
             method: "POST",
             body: JSON.stringify(body),
-            headers: {
-              Authorization: `Bearer ${options.apiKey}`,
-              'Content-Type': 'application/json',
-              'Accept': 'text/event-stream'
-            }
+            headers: headers
           }).then((response) => {
             if (response.ok && response.body) {
               const reader = response.body.pipeThrough(new TextDecoderStream()).getReader();
@@ -250,7 +262,8 @@ export async function openAIWithStream(
 
                   let res = ""
                   for (let i = 0; i < data.length; i++) {
-                    res += data[i].choices[0]?.delta?.content || ""
+                    if(data[i])
+                      res += data[i].choices[0]?.delta?.content || ""
                   }
                   result += res
                   onContent(res)
@@ -260,7 +273,8 @@ export async function openAIWithStream(
             } else {
               return Promise.reject(response);
             }
-          }),
+          })
+        },
         retryOptions
       );
       const choices = (response as CreateChatCompletionResponse)?.choices;

@@ -24,9 +24,16 @@ export const settingsSchema: SettingSchemaDesc[] = [
   {
     key: "chatCompletionEndpoint",
     type: "string",
-    default: "http://api.openai.com/v1",
+    default: "http://api.openai.com/v1/chat/completions",
     title: "OpenAI API Completion Endpoint",
     description: "The endpoint to use for OpenAI API completion requests. You shouldn't need to change this."
+  },
+  {
+    key: "customHeaders",
+    type: "string",
+    default: "",
+    title: "OpenAI API Custom Headers3",
+    description: "Custom headers to use for OpenAI API completion requests. You typically don't need to change this."
   },
   {
     key: "chatPrompt",
@@ -90,6 +97,7 @@ function unescapeNewlines(s: string) {
 
 export function getOpenaiSettings(): PluginOptions {
   const apiKey = logseq.settings!["openAIKey"];
+  const customHeaders = logseq.settings!["customHeaders"];
   const completionEngine = logseq.settings!["openAICompletionEngine"];
   const injectPrefix = unescapeNewlines(logseq.settings!["injectPrefix"]);
   const temperature = Number.parseFloat(logseq.settings!["openAITemperature"]);
@@ -101,6 +109,7 @@ export function getOpenaiSettings(): PluginOptions {
   const completionEndpoint = logseq.settings!["chatCompletionEndpoint"];
   return {
     apiKey,
+    customHeaders,
     completionEngine,
     temperature,
     maxTokens,
