@@ -24,7 +24,7 @@ export const settingsSchema: SettingSchemaDesc[] = [
   {
     key: "chatCompletionEndpoint",
     type: "string",
-    default: "http://api.openai.com/v1",
+    default: "https://api.openai.com/v1",
     title: "OpenAI API Completion Endpoint",
     description: "The endpoint to use for OpenAI API completion requests. You shouldn't need to change this."
   },
