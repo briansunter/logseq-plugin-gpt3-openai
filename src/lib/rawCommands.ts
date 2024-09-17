@@ -52,13 +52,18 @@ function validateSettings(settings: OpenAIOptions) {
   }
 
   if (
-    settings.dalleImageSize !== 256 &&
-    settings.dalleImageSize !== 512 &&
-    settings.dalleImageSize !== 1024
+    settings.dalleImageSize !== '256' &&
+    settings.dalleImageSize !== '256x256' &&
+    settings.dalleImageSize !== '512' &&
+    settings.dalleImageSize !== '512x512' &&
+    settings.dalleImageSize !== '1024' &&
+    settings.dalleImageSize !== '1024x1024' &&
+    settings.dalleImageSize !== '1024x1792' &&
+    settings.dalleImageSize !== '1792x1024'
   ) {
     console.error("DALL-E image size must be 256, 512, or 1024.");
     logseq.App.showMsg("DALL-E image size must be 256, 512, or 1024.", "error");
-    throw new Error("DALL-E image size must be 256, 512, or 1024.");
+    throw new Error("DALL-E image size must be 256, 512, 1024, 1024x1792, or 179x1024");
   }
 }
 

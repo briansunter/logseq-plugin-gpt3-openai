@@ -1,20 +1,20 @@
-import {
-  ChatCompletionRequestMessage,
-  Configuration,
-  CreateChatCompletionResponse, CreateCompletionResponse,
-  CreateImageRequestSizeEnum,
-  OpenAIApi
-} from "openai";
+import OpenAI from "openai";
 import "@logseq/libs";
 import { backOff } from "exponential-backoff";
 
-export type DalleImageSize = 256 | 512 | 1024;
+export type DalleImageSize = '256' | '256x256' | '512' | '512x512' | '1024' | '1024x1024' | '1024x1792' | '1792x1024';
+export type DalleModel = 'dall-e-2' | 'dall-e-3';
+export type DalleQuality = 'standard' | 'hd';
+export type DalleStyle = 'natural' | 'vivid';
 export interface OpenAIOptions {
   apiKey: string;
   completionEngine?: string;
   temperature?: number;
   maxTokens?: number;
   dalleImageSize?: DalleImageSize;
+  dalleModel?: DalleModel;
+  dalleQuality?: DalleQuality;
+  dalleStyle?: DalleStyle;
   chatPrompt?: string;
   completionEndpoint?: string;
 }
@@ -24,7 +24,10 @@ const OpenAIDefaults = (apiKey: string): OpenAIOptions => ({
   completionEngine: "gpt-3.5-turbo",
   temperature: 1.0,
   maxTokens: 1000,
-  dalleImageSize: 1024,
+  dalleImageSize: '1024',
+  dalleModel: 'dall-e-3',
+  dalleQuality: 'standard',
+  dalleStyle: 'vivid'
 });
 
 const retryOptions = {
@@ -92,25 +95,34 @@ export async function dallE(
 ): Promise<string | undefined> {
   const options = { ...OpenAIDefaults(openAiOptions.apiKey), ...openAiOptions };
 
-  const configuration = new Configuration({
+  const openai = new OpenAI({
     apiKey: options.apiKey,
-    basePath: options.completionEndpoint
+    baseURL: options.completionEndpoint,
+    dangerouslyAllowBrowser: true
   });
 
-  const openai = new OpenAIApi(configuration);
-  const imageSizeRequest: CreateImageRequestSizeEnum =
-    `${options.dalleImageSize}x${options.dalleImageSize}` as CreateImageRequestSizeEnum;
+  // TODO : fix this typing loop
+  // @ts-ignore  
+  const imageSizeRequest: OpenAI.ImageGenerateParams["size"] = options.dalleImageSize ?
+  options.dalleImageSize!.includes('x') 
+    ? options.dalleImageSize 
+    : `${options.dalleImageSize}x${options.dalleImageSize}` : '256x256';  
+
+  const imageParameters: OpenAI.ImageGenerateParams = {
+    prompt,
+    n: 1,
+    size: imageSizeRequest,
+    model: options.dalleModel,
+    quality: options.dalleQuality,
+    style: options.dalleStyle
+  };
 
   const response = await backOff(
     () =>
-      openai.createImage({
-        prompt,
-        n: 1,
-        size: imageSizeRequest,
-      }),
+      openai.images.generate(imageParameters),
     retryOptions
   );
-  return response.data.data[0].url;
+  return response.data[0].url;
 }
 
 export async function openAI(
@@ -120,22 +132,20 @@ export async function openAI(
   const options = { ...OpenAIDefaults(openAiOptions.apiKey), ...openAiOptions };
   const engine = options.completionEngine!;
 
-  const configuration = new Configuration({
-    basePath: options.completionEndpoint,
+  const openai = new OpenAI({
     apiKey: options.apiKey,
+    baseURL: options.completionEndpoint
   });
-
-  const openai = new OpenAIApi(configuration);
   try {
     if (engine.startsWith("gpt-3.5") || engine.startsWith("gpt-4")) {
-      const inputMessages:ChatCompletionRequestMessage[] =  [{ role: "user", content: input }];
+      const inputMessages:OpenAI.Chat.CreateChatCompletionRequestMessage[] =  [{ role: "user", content: input }];
       if (openAiOptions.chatPrompt && openAiOptions.chatPrompt.length > 0) {
         inputMessages.unshift({ role: "system", content: openAiOptions.chatPrompt });
 
       }
       const response = await backOff(
         () =>
-          openai.createChatCompletion({
+          openai.chat.completions.create({
             messages: inputMessages,
             temperature: options.temperature,
             max_tokens: options.maxTokens,
@@ -146,7 +156,7 @@ export async function openAI(
           }),
         retryOptions
       );
-      const choices = response.data.choices;
+      const choices = response.choices;
       if (
         choices &&
         choices[0] &&
@@ -160,7 +170,7 @@ export async function openAI(
       }
     } else {
       const response = await backOff(() =>
-        openai.createCompletion({
+        openai.completions.create({
           prompt: input,
           temperature: options.temperature,
           max_tokens: options.maxTokens,
@@ -171,7 +181,7 @@ export async function openAI(
         }),
         retryOptions
       );
-      const choices = response.data.choices;
+      const choices = response.choices;
       if (
         choices &&
         choices[0] &&
@@ -204,7 +214,7 @@ export async function openAIWithStream(
 
   try {
     if (engine.startsWith("gpt-3.5") || engine.startsWith("gpt-4")) {
-      const inputMessages: ChatCompletionRequestMessage[] = [{ role: "user", content: input }];
+      const inputMessages: OpenAI.Chat.CreateChatCompletionRequestMessage[] = [{ role: "user", content: input }];
       if (openAiOptions.chatPrompt && openAiOptions.chatPrompt.length > 0) {
         inputMessages.unshift({ role: "system", content: openAiOptions.chatPrompt });
       }
@@ -263,7 +273,7 @@ export async function openAIWithStream(
           }),
         retryOptions
       );
-      const choices = (response as CreateChatCompletionResponse)?.choices;
+      const choices = (response as OpenAI.Chat.Completions.ChatCompletion)?.choices;
       if (
         choices &&
         choices[0] &&
@@ -331,7 +341,7 @@ export async function openAIWithStream(
           }),
         retryOptions
       );
-      const choices = (response as CreateCompletionResponse)?.choices;
+      const choices = (response as OpenAI.Completion)?.choices;
       if (
         choices &&
         choices[0] &&
