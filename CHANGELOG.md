@@ -1,3 +1,11 @@
+## [1.13.3](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.13.2...v1.13.3) (2024-10-03)
+
+
+### Bug Fixes
+
+* API url - add https ([#139](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/139)) ([27ee535](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/27ee535c335d9bfb35952296cb4e1806c0d7b5b4))
+* pnpm setup ([d3ac057](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/d3ac0573a09810146d6916d72ada3c1d11dc0f3f))
+
 ## [1.13.2](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.13.1...v1.13.2) (2023-10-11)
 
 
