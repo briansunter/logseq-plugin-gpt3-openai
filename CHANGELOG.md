@@ -1,3 +1,10 @@
+## [1.14.2](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.14.1...v1.14.2) (2024-10-09)
+
+
+### Bug Fixes
+
+* migrate old url if in settings ([1d8bd59](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/1d8bd59210b6233c92362a7f7861779abb23b570))
+
 ## [1.14.1](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.14.0...v1.14.1) (2024-10-09)
 
 
