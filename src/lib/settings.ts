@@ -62,11 +62,32 @@ export const settingsSchema: SettingSchemaDesc[] = [
   },
   {
     key: "dalleImageSize",
-    type: "number",
+    type: "string",
     default: 1024,
     title: "DALL-E Image Size",
     description:
-      "Size of the image to generate. Can be 256, 512, or 1024. Smaller images are faster to generate.",
+      "Size of the image to generate. Can be 256, 512, or 1024 for dall-e-2;  Must be one of 1024x1024 , 1792x1024 , or 1024x1792 for dall-e-3 models.",
+  },
+  {
+    key: "dalleModel",
+    type: "string",
+    default: "dall-e-3",
+    title: "DALL-E Model",
+    description: "The DALL-E model to use. Can be dall-e-2 or dall-e-3."
+  },
+  {
+    key: "dalleStyle",
+    type: "string",
+    default: "vivid",
+    title: "Style",
+    description: "The style of the generated images. Must be one of vivid or natural. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images."
+  },
+  {
+    key: "dalleQuality",
+    type: "string",
+    default: "standard",
+    title: "Quality",
+    description: "The quality of the image that will be generated. ‘hd’ creates images with finer details and greater consistency across the image. Defaults to ‘standard’."
   },
   {
     key: "shortcutBlock",
@@ -94,9 +115,10 @@ export function getOpenaiSettings(): PluginOptions {
   const injectPrefix = unescapeNewlines(logseq.settings!["injectPrefix"]);
   const temperature = Number.parseFloat(logseq.settings!["openAITemperature"]);
   const maxTokens = Number.parseInt(logseq.settings!["openAIMaxTokens"]);
-  const dalleImageSize = Number.parseInt(
-    logseq.settings!["dalleImageSize"]
-  ) as DalleImageSize;
+  const dalleImageSize = logseq.settings!["dalleImageSize"] as DalleImageSize;
+  const dalleModel = logseq.settings!["dalleModel"];
+  const dalleStyle = logseq.settings!["dalleStyle"];
+  const dalleQuality = logseq.settings!["dalleQuality"];
   const chatPrompt = logseq.settings!["chatPrompt"];
   const completionEndpoint = logseq.settings!["chatCompletionEndpoint"];
   return {
@@ -105,6 +127,9 @@ export function getOpenaiSettings(): PluginOptions {
     temperature,
     maxTokens,
     dalleImageSize,
+    dalleModel,
+    dalleQuality,
+    dalleStyle,
     injectPrefix,
     chatPrompt,
     completionEndpoint,

@@ -56,12 +56,13 @@ export async function getPageContentFromBlock(b: BlockEntity): Promise<string> {
 export async function saveDalleImage(imageURL: string): Promise<string> {
   const s = logseq.Assets.makeSandboxStorage();
   const imageName = `dalle-${Date.now()}.png`;
-
   const response = await fetch(imageURL);
 
   const responseArrayBuffer: any = await response.arrayBuffer();
   await s.setItem(imageName, responseArrayBuffer);
-  const imageFileName = `![](assets/storages/logseq-plugin-gpt3-openai/${imageName})`;
+  const pluginId = logseq.baseInfo.id || 'logseq-plugin-gpt3-openai';
+
+  const imageFileName = `![](assets/storages/${pluginId}/${imageName})`;
   return imageFileName;
 }
 
