@@ -1,3 +1,15 @@
+# [1.14.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.13.3...v1.14.0) (2024-10-09)
+
+
+### Bug Fixes
+
+* update lockfile ([1067ca4](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/1067ca4c22d5e9e3616cee616567cbf229029be4))
+
+
+### Features
+
+* bump openapi to 4.x and add dall-e-3 support ([#142](https://github.com/briansunter/logseq-plugin-gpt3-openai/issues/142)) ([6085dca](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/6085dcac16d7c1472f142b263fe75857d44414ad))
+
 ## [1.13.3](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.13.2...v1.13.3) (2024-10-03)
 
 
