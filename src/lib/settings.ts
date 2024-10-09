@@ -26,14 +26,17 @@ export const settingsSchema: SettingSchemaDesc[] = [
     type: "string",
     default: "https://api.openai.com/v1",
     title: "OpenAI API Completion Endpoint",
-    description: "The endpoint to use for OpenAI API completion requests. You shouldn't need to change this."
+    description:
+      "The endpoint to use for OpenAI API completion requests. You shouldn't need to change this.",
   },
   {
     key: "chatPrompt",
     type: "string",
-    default: "Do not refer to yourself in your answers. Do not say as an AI language model...",
+    default:
+      "Do not refer to yourself in your answers. Do not say as an AI language model...",
     title: "OpenAI Chat Prompt",
-    description: "Initial message that tells ChatGPT how to answer. Only used for gpt-3.5. See https://platform.openai.com/docs/guides/chat/introduction for more info.",
+    description:
+      "Initial message that tells ChatGPT how to answer. Only used for gpt-3.5. See https://platform.openai.com/docs/guides/chat/introduction for more info.",
   },
   {
     key: "openAITemperature",
@@ -41,7 +44,7 @@ export const settingsSchema: SettingSchemaDesc[] = [
     default: 1.0,
     title: "OpenAI Temperature",
     description:
-      "The temperature controls how much randomness is in the output.<br/>"+
+      "The temperature controls how much randomness is in the output.<br/>" +
       "You can set a different temperature in your own prompt templates by adding a 'prompt-template' property to the block.",
   },
   {
@@ -63,7 +66,7 @@ export const settingsSchema: SettingSchemaDesc[] = [
   {
     key: "dalleImageSize",
     type: "string",
-    default: 1024,
+    default: "1024",
     title: "DALL-E Image Size",
     description:
       "Size of the image to generate. Can be 256, 512, or 1024 for dall-e-2;  Must be one of 1024x1024 , 1792x1024 , or 1024x1792 for dall-e-3 models.",
@@ -73,35 +76,37 @@ export const settingsSchema: SettingSchemaDesc[] = [
     type: "string",
     default: "dall-e-3",
     title: "DALL-E Model",
-    description: "The DALL-E model to use. Can be dall-e-2 or dall-e-3."
+    description: "The DALL-E model to use. Can be dall-e-2 or dall-e-3.",
   },
   {
     key: "dalleStyle",
     type: "string",
     default: "vivid",
     title: "Style",
-    description: "The style of the generated images. Must be one of vivid or natural. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images."
+    description:
+      "The style of the generated images. Must be one of vivid or natural. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images.",
   },
   {
     key: "dalleQuality",
     type: "string",
     default: "standard",
     title: "Quality",
-    description: "The quality of the image that will be generated. ‘hd’ creates images with finer details and greater consistency across the image. Defaults to ‘standard’."
+    description:
+      "The quality of the image that will be generated. ‘hd’ creates images with finer details and greater consistency across the image. Defaults to ‘standard’.",
   },
   {
     key: "shortcutBlock",
     type: "string",
     default: "mod+j",
     title: "Keyboard Shortcut for /gpt-block",
-    description: ""
+    description: "",
   },
   {
     key: "popupShortcut",
     type: "string",
     default: "mod+g",
     title: "Keyboard Shortcut for /gpt popup",
-    description: ""
+    description: "",
   },
 ];
 
