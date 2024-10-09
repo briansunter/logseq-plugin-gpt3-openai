@@ -58,9 +58,16 @@ const retryOptions = {
   },
 };
 
+function migrateOldUrl(url: string) {
+  if (url.startsWith("http://api.openai.com")) {
+    return url.replace("http://api.openai.com", "https://api.openai.com");
+  }
+  return url;
+}
+
 export async function whisper(file: File,openAiOptions:OpenAIOptions): Promise<string> {
     const apiKey = openAiOptions.apiKey;
-    const baseUrl = openAiOptions.completionEndpoint ? openAiOptions.completionEndpoint : "https://api.openai.com/v1";
+    const baseUrl = openAiOptions.completionEndpoint ? migrateOldUrl(openAiOptions.completionEndpoint)  : "https://api.openai.com/v1";
     const model = 'whisper-1';
   
     // Create a FormData object and append the file
