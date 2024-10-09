@@ -1,3 +1,10 @@
+## [1.14.1](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.14.0...v1.14.1) (2024-10-09)
+
+
+### Bug Fixes
+
+* default image size format ([af7163f](https://github.com/briansunter/logseq-plugin-gpt3-openai/commit/af7163fbb6130410156e20175c0a97aa34712e07))
+
 # [1.14.0](https://github.com/briansunter/logseq-plugin-gpt3-openai/compare/v1.13.3...v1.14.0) (2024-10-09)
 
 
