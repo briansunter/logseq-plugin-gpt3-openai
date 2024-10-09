@@ -274,7 +274,7 @@ This error doesn't cause any issues besides the error message in the console. It
 ### Installing
 
 ```
-npm i
+pnpm i
 ```
 
 ## Running the tests <a name = "tests"></a>
@@ -284,7 +284,7 @@ npm i
 ## Build <a name="usage"></a>
 
 ```
-npm run build
+pnpm run build
 ```
 
 ## 💻 Local Development
@@ -292,13 +292,13 @@ npm run build
 This enables the local dev server with hot reloading, via the logseq vite plugin.
 
 ```
-npm i
-npm run dev
+pnpm i
+pnpm run dev
 ```
 
 ### Prod build
 
-First run `npm i` and `npm run build`
+First run `pnpm i` and `pnpm run build`
 
 Open LogSeq
 
