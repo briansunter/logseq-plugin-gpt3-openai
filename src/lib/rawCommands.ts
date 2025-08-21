@@ -1,5 +1,7 @@
+// src/lib/rawCommands.ts
 import { IHookEvent } from "@logseq/libs/dist/LSPlugin.user";
-import { getAudioFile, getPageContentFromBlock, saveDalleImage } from "./logseq";
+import { getPageContentFromBlock, saveDalleImage } from "./logseq";
+import { getEnhancedAudioFile } from "./audio"; // Import the enhanced audio handler
 import { OpenAIOptions, dallE, whisper, openAIWithStream } from "./openai";
 import { getOpenaiSettings } from "./settings";
 
@@ -26,7 +28,7 @@ function handleOpenAIError(e: any) {
   } else if (httpStatus === 429) {
     if (errorType === "insufficient_quota") {
       console.error(
-        "Exceeded OpenAI API quota. Or your trial is over. You can buy more at https://beta.openai.com/account/billing/overview"
+        "Exceeded OpenAI API quota. Or your trial is over. You can buy more at https://platform.openai.com/account/billing/overview"
       );
       logseq.App.showMsg("OpenAI Quota Reached", "error");
     } else {
@@ -63,7 +65,7 @@ function validateSettings(settings: OpenAIOptions) {
   ) {
     console.error("DALL-E image size must be 256, 512, or 1024.");
     logseq.App.showMsg("DALL-E image size must be 256, 512, or 1024.", "error");
-    throw new Error("DALL-E image size must be 256, 512, 1024, 1024x1792, or 179x1024");
+    throw new Error("DALL-E image size must be 256, 512, 1024, 1024x1792, or 1792x1024");
   }
 }
 
@@ -190,16 +192,19 @@ export async function runDalleBlock(b: IHookEvent) {
 export async function runWhisper(b: IHookEvent) {
   const currentBlock = await logseq.Editor.getBlock(b.uuid);
   if (currentBlock) {
-    const audioFile = await getAudioFile(currentBlock.content);
+    // Use the enhanced audio file handler that supports AAC
+    const audioFile = await getEnhancedAudioFile(currentBlock.content);
     if (!audioFile) {
-      logseq.App.showMsg("No supported audio file found in block.", "warning");
+      logseq.App.showMsg("No supported audio file found in block. Supported formats: mp3, mp4, mpeg, mpga, m4a, wav, webm, aac", "warning");
       return;
     }
     const openAISettings = getOpenaiSettings();
     try {
+      logseq.App.showMsg("Transcribing audio...", "info");
       const transcribe = await whisper(audioFile, openAISettings);
       if (transcribe) {
         await logseq.Editor.insertBlock(currentBlock.uuid, transcribe);
+        logseq.App.showMsg("Transcription complete!", "success");
       }
     } catch (e: any) {
       handleOpenAIError(e);

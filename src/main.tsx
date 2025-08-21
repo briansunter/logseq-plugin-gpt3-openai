@@ -7,6 +7,7 @@ import { Command, LogseqAI } from "./ui/LogseqAI";
 import { loadUserCommands, loadBuiltInCommands } from "./lib/prompts";
 import { getOpenaiSettings, settingsSchema } from "./lib/settings";
 import { runDalleBlock, runGptBlock, runGptPage, runWhisper } from "./lib/rawCommands";
+import { testConverterConnection } from "./lib/audio"; // Import the test function
 import { BlockEntity } from "@logseq/libs/dist/LSPlugin.user";
 import { useImmer } from 'use-immer';
 
@@ -31,6 +32,18 @@ async function main() {
   logseq.provideModel(createModel());
   logseq.setMainUIInlineStyle({
     zIndex: 11,
+  });
+
+  // Register AAC converter test command
+  logseq.App.registerCommandPalette({
+    key: "test-aac-converter",
+    label: "Test AAC Converter Connection",
+    keybinding: {
+      mode: "non-editing",
+      binding: "mod+shift+a"
+    }
+  }, async () => {
+    await testConverterConnection();
   });
 }
 
@@ -118,7 +131,7 @@ const LogseqApp = () => {
             draft.selection = {
               type: "singleBlockSelected",
               block: currentBlock,
-            };  
+            };
           });
         } else {
           updateAppState(draft => {
@@ -191,7 +204,7 @@ const LogseqApp = () => {
 
     const openAISettings = getOpenaiSettings();
     // Set temperature of command instead of global temperature
-    if (command.temperature!=null && !Number.isNaN(command.temperature)) {
+    if (command.temperature != null && !Number.isNaN(command.temperature)) {
       openAISettings.temperature = command.temperature;
     }
     const response = await openAIWithStream(command.prompt + inputText, openAISettings, onContent, () => {

@@ -3,6 +3,8 @@ import { DalleImageSize, OpenAIOptions } from "./openai";
 
 interface PluginOptions extends OpenAIOptions {
   injectPrefix?: string;
+  converterHost?: string;
+  converterPort?: number;
 }
 
 export const settingsSchema: SettingSchemaDesc[] = [
@@ -12,14 +14,14 @@ export const settingsSchema: SettingSchemaDesc[] = [
     default: "",
     title: "OpenAI API Key",
     description:
-      "Your OpenAI API key. You can get one at https://beta.openai.com",
+      "Your OpenAI API key. You can get one at https://platform.openai.com",
   },
   {
     key: "openAICompletionEngine",
     type: "string",
     default: "gpt-3.5-turbo",
     title: "OpenAI Completion Engine",
-    description: "See Engines in OpenAI docs.",
+    description: "See Models in OpenAI docs. Examples: gpt-3.5-turbo, gpt-4, gpt-4-turbo",
   },
   {
     key: "chatCompletionEndpoint",
@@ -27,7 +29,7 @@ export const settingsSchema: SettingSchemaDesc[] = [
     default: "https://api.openai.com/v1",
     title: "OpenAI API Completion Endpoint",
     description:
-      "The endpoint to use for OpenAI API completion requests. You shouldn't need to change this.",
+      "The endpoint to use for OpenAI API completion requests. You shouldn't need to change this unless using a proxy or alternative service.",
   },
   {
     key: "chatPrompt",
@@ -36,7 +38,7 @@ export const settingsSchema: SettingSchemaDesc[] = [
       "Do not refer to yourself in your answers. Do not say as an AI language model...",
     title: "OpenAI Chat Prompt",
     description:
-      "Initial message that tells ChatGPT how to answer. Only used for gpt-3.5. See https://platform.openai.com/docs/guides/chat/introduction for more info.",
+      "Initial system message that tells ChatGPT how to answer. See https://platform.openai.com/docs/guides/chat/introduction for more info.",
   },
   {
     key: "openAITemperature",
@@ -44,7 +46,7 @@ export const settingsSchema: SettingSchemaDesc[] = [
     default: 1.0,
     title: "OpenAI Temperature",
     description:
-      "The temperature controls how much randomness is in the output.<br/>" +
+      "Controls randomness in output (0.0-2.0). Lower values make output more focused and deterministic.<br/>" +
       "You can set a different temperature in your own prompt templates by adding a 'prompt-template' property to the block.",
   },
   {
@@ -53,7 +55,8 @@ export const settingsSchema: SettingSchemaDesc[] = [
     default: 1000,
     title: "OpenAI Max Tokens",
     description:
-      "The maximum amount of tokens to generate. Tokens can be words or just chunks of characters. The number of tokens processed in a given API request depends on the length of both your inputs and outputs. As a rough rule of thumb, 1 token is approximately 4 characters or 0.75 words for English text. One limitation to keep in mind is that your text prompt and generated completion combined must be no more than the model's maximum context length (for most models this is 2048 tokens, or about 1500 words).",
+      "Maximum tokens to generate. Roughly 1 token = 4 characters or 0.75 words for English text.<br/>" +
+      "Note: Input + output tokens combined must not exceed the model's context length.",
   },
   {
     key: "injectPrefix",
@@ -61,52 +64,80 @@ export const settingsSchema: SettingSchemaDesc[] = [
     default: "",
     title: "Output prefix",
     description:
-      "Prepends the output with this string. Such as a tag like [[gpt3]] or markdown like > to blockquote. Add a space at the end if you want a space between the prefix and the output or \\n for a linebreak.",
+      "Prepends output with this string. Examples: [[gpt3]] for a tag, > for blockquote.<br/>" +
+      "Add a space at the end for spacing, or \\n for a line break.",
   },
   {
     key: "dalleImageSize",
     type: "string",
-    default: "1024",
+    default: "1024x1024",
     title: "DALL-E Image Size",
     description:
-      "Size of the image to generate. Can be 256, 512, or 1024 for dall-e-2;  Must be one of 1024x1024 , 1792x1024 , or 1024x1792 for dall-e-3 models.",
+      "Image size to generate.<br/>" +
+      "DALL-E 2: 256x256, 512x512, 1024x1024<br/>" +
+      "DALL-E 3: 1024x1024, 1792x1024, 1024x1792",
   },
   {
     key: "dalleModel",
     type: "string",
     default: "dall-e-3",
     title: "DALL-E Model",
-    description: "The DALL-E model to use. Can be dall-e-2 or dall-e-3.",
+    description: "The DALL-E model to use. Options: dall-e-2, dall-e-3",
   },
   {
     key: "dalleStyle",
     type: "string",
     default: "vivid",
-    title: "Style",
+    title: "DALL-E Style",
     description:
-      "The style of the generated images. Must be one of vivid or natural. Vivid causes the model to lean towards generating hyper-real and dramatic images. Natural causes the model to produce more natural, less hyper-real looking images.",
+      "Image style for DALL-E 3.<br/>" +
+      "vivid: Hyper-real and dramatic images<br/>" +
+      "natural: More natural, less hyper-real images",
   },
   {
     key: "dalleQuality",
     type: "string",
     default: "standard",
-    title: "Quality",
+    title: "DALL-E Quality",
     description:
-      "The quality of the image that will be generated. ‘hd’ creates images with finer details and greater consistency across the image. Defaults to ‘standard’.",
+      "Image quality for DALL-E 3.<br/>" +
+      "standard: Standard quality<br/>" +
+      "hd: Higher detail and consistency (costs more)",
+  },
+  {
+    key: "converterHost",
+    type: "string",
+    default: "127.0.0.1",
+    title: "AAC Converter Host",
+    description:
+      "Host address for the AAC converter service.<br/>" +
+      "Default: 127.0.0.1 (localhost)<br/>" +
+      "Change this if running the converter on a different machine.<br/>" +
+      "Example: 192.168.1.100 for a different computer on your network",
+  },
+  {
+    key: "converterPort",
+    type: "number",
+    default: 3456,
+    title: "AAC Converter Port",
+    description:
+      "Port number for the AAC converter service.<br/>" +
+      "Default: 3456<br/>" +
+      "Make sure this matches the port configured in the converter service.",
   },
   {
     key: "shortcutBlock",
     type: "string",
     default: "mod+j",
     title: "Keyboard Shortcut for /gpt-block",
-    description: "",
+    description: "Keyboard shortcut to trigger GPT on current block. Format: mod+key (mod = Ctrl/Cmd)",
   },
   {
     key: "popupShortcut",
     type: "string",
     default: "mod+g",
     title: "Keyboard Shortcut for /gpt popup",
-    description: "",
+    description: "Keyboard shortcut to open GPT popup. Format: mod+key (mod = Ctrl/Cmd)",
   },
 ];
 
@@ -126,6 +157,9 @@ export function getOpenaiSettings(): PluginOptions {
   const dalleQuality = logseq.settings!["dalleQuality"];
   const chatPrompt = logseq.settings!["chatPrompt"];
   const completionEndpoint = logseq.settings!["chatCompletionEndpoint"];
+  const converterHost = logseq.settings!["converterHost"] || "127.0.0.1";
+  const converterPort = logseq.settings!["converterPort"] || 3456;
+
   return {
     apiKey,
     completionEngine,
@@ -138,5 +172,7 @@ export function getOpenaiSettings(): PluginOptions {
     injectPrefix,
     chatPrompt,
     completionEndpoint,
+    converterHost,
+    converterPort,
   };
 }

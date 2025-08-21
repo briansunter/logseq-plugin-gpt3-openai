@@ -129,6 +129,12 @@ export async function dallE(
       openai.images.generate(imageParameters),
     retryOptions
   );
+
+  // Fixed: Add null check for response.data
+  if (!response.data || response.data.length === 0) {
+    throw new Error("No image data returned from DALL-E");
+  }
+
   return response.data[0].url;
 }
 
